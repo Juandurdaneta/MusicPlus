@@ -1,0 +1,22 @@
+{
+  "name": "musicplus",
+  "version": "1.0.0",
+  "description": "Music plus web app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Juandurdaneta/MusicPlus.git"
+  },
+  "author": "Juan Urdaneta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Juandurdaneta/MusicPlus/issues"
+  },
+  "homepage": "https://github.com/Juandurdaneta/MusicPlus#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
