@@ -13,3 +13,7 @@ Desarrollado por Juan Urdaneta C.I 27.683.174
 - [ ] Seguir listas de reproducccion de otros usuarios.
 - [ ] Lista de reproduccion especial llamada favoritos.
 - [ ] Capacidad de buscar canciones, grupos, álbumes y lista de reproducción.
+
+
+## Enlaces
+[Modelado de datos](https://dbdiagram.io/d/60cfccc70c1ff875fcd5a80f)
