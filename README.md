@@ -18,3 +18,4 @@ Desarrollado por Juan Urdaneta C.I 27.683.174
 
 ## Enlaces
 [Modelado de datos](https://dbdiagram.io/d/60cfccc70c1ff875fcd5a80f)
+[Documentacion de endpoints](https://documenter.getpostman.com/view/15432930/Tzeah5TK)
