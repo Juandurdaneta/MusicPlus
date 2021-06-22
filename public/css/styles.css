@@ -25,6 +25,21 @@ h1{
     
 }
 
+.logo  a{
+    color: #ffffff
+}
+
+.logo a:hover{
+    color:#ffffff;
+}
+
+.btn-primary{
+    font-weight: 700;
+    font-size: 1rem;
+}
+/** PAGINA DE INICIO */
+
+
 /** BARRA DE NAVEGACION INICIO */
 .btn-inicio{
     font-size: 1rem;
@@ -50,9 +65,6 @@ nav{
     padding: 4%;
 }
 
-.btn-primary{
-    background-color: #0063e5;
-}
 
 .btn-registro{
     width: 70%;
@@ -95,5 +107,92 @@ nav{
     .texto-promocion h1, p{
      text-align: center;
     }
+    
+}
+
+/** FIN PAGINA DE INICIO */
+
+/** PAGINA INICIAR SESION / REGISTRAR USUARIO */
+
+
+/** INICIO DE SESION */
+.loginRegister{
+    background-color: #1a1d29;
+    height: 100vh;
+}
+
+@media (max-width: 769px) {
+    
+    .loginRegister{
+     margin: 0%;
+    }
+
+    .login-form button{
+        margin-top: 1.8rem;
+    }
+
+    .login-container{
+       padding: 0%;
+
+    }
+    
+}
+.formulario input{
+    border: 1px solid #a6a6a7 ;
+    background-color: #31343e;
+    color: #ffffff;
+}
+
+.formulario input:focus{
+    border: 1px solid #a6a6a7 ;
+    background-color: #31343e;
+    color: #ffffff;
+}
+
+.formulario input::placeholder{
+    color: #cdcfd6;
+}
+.formulario h4{
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+.login-input{
+    margin-bottom: 5%;
+}
+
+.texto-nuevo-usuario p{
+    color:#a6a6a7;
+    display: inline;
+}
+
+/** REGISTRO */
+
+.form-registro p{
+    color: rgb(212, 211, 211);
+}
+
+#inicioSesionRed{
+    position: absolute;
+    color: #cacaca;
+    left: 88%;
+    top: 5%;
+    font-weight: 600;
+}
+
+#inicioSesionRed:hover{
+    color:#ffffff;
+}
+
+@media (max-width: 769px) {
+    
+  #inicioSesionRed{
+      left: 78%;
+      top: 3%;
+      font-size: .9rem;
+  }
+
+  .formulario p{
+      text-align: start;
+  }
     
 }

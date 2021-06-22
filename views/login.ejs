@@ -1,0 +1,43 @@
+<%- include("partials/header");  %> 
+<section class="cuerpoInicio loginRegister">
+
+    <div class="container-fluid text-center login-container">
+        <!-- LOGO -->
+        <div class="row">
+            <div class="col-12 logo">
+                <h1> <a href="/">Music <i class="fa fa-plus" aria-hidden="true"></i></a> </h1>
+            </div>
+        </div>
+        <!-- FIN LOGO -->
+ 
+        <!-- FORMULARIO INICIO DE SESION -->
+            <div class="row justify-content-center login-container">
+                <div class="col-xl-5 col-md-8">
+                  <form class="formulario p-5">
+                    <h4 class="text-start">Inicia sesión con tus credenciales</h4>
+                    <div class="login-input">
+                        <input type="email" id="correoElectronico" name="correoElectronico" class="form-control p-2" placeholder="Correo electrónico"/>
+                    </div>
+                    <div class="login-input">
+                        <input type="password" id="pass" name="pass" class="form-control p-2" placeholder="Contraseña" autocomplete="false"/>
+                        </div>
+
+                    <button type="submit" class="btn btn-block btn-primary">Iniciar sesión</button>    
+                    <br>
+                    <div class="text-start texto-nuevo-usuario">
+                        <p>¿Primera vez en Music+?</p> <a href="register" style="color: white;">Registrate</a>
+                    </div>
+                  </form>
+
+                </div>
+            </div>
+        <!-- FIN FORMULARIO INICIO DE SESION -->
+            
+
+    </div>
+
+
+</section>
+
+
+<%- include("partials/footer");  %>
