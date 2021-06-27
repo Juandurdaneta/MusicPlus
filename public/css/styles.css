@@ -196,3 +196,23 @@ nav{
   }
     
 }
+
+
+/** HOMEPAGE */
+
+/**Carousel */
+
+@media (min-width: 780px){
+    .carousel .carousel-item {
+        height: 500px;
+      }
+      
+      .carousel .carousel-item img {
+          position: absolute;
+          object-fit:cover;
+          top: 0;
+          left: 0;
+          min-height: 500px;
+      }
+      
+}
