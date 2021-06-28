@@ -4,8 +4,8 @@ Proyecto N2 Para la materia de Desarrollo Web II
 Desarrollado por Juan Urdaneta C.I 27.683.174
 
 ## Funcionalidades de la web
-- [ ] Crear un Usuario.
-- [ ] Iniciar Sesion con el Usuario Creado anteriormente.
+- [x] Crear un Usuario.
+- [x] Iniciar Sesion con el Usuario Creado anteriormente.
 - [ ] Jerarquia de usuario (Administrador y Usuario Común).
 - [ ] Reproducción de canciones.
 - [ ] Vista de estadisticas para administrador.
