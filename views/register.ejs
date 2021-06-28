@@ -13,24 +13,24 @@
         <!--FORMULARIO DE REGISTRO-->
         <div class="row justify-content-center ">
         <div class="col-xl-5 col-md-8">
-
-        <form class="p-4 text-start form-registro formulario">
+        <%= UsuarioAgregado %> 
+        <form class="p-4 text-start form-registro formulario" action="register" method="post">
             <p>Paso 1 de 3</p>
             <h4>Escribe tu correo electronico</h4>
             <div>
-                <input type="email" class="form-control p-2" placeholder="Correo electrónico"/>
+                <input type="email" class="form-control p-2" placeholder="Correo electrónico" name = "mail" id="mail"/>
             </div>
             <br>
             <p>Paso 2 de 3</p>
             <h4>Escribe tu nombre de usuario</h4>
             <div>
-                <input type="text" class="form-control p-2" placeholder="Nombre de usuario"/>
+                <input type="text" class="form-control p-2" placeholder="Nombre de usuario" name="username"/>
             </div>
             <br>
             <p>Paso 3 de 3</p>
             <h4>Crea una contraseña</h4>
             <div>
-                <input type="password" class="form-control p-2" placeholder="Contraseña"/>
+                <input type="password" class="form-control p-2" placeholder="Contraseña" name="pass"/>
             </div>
             <br>
             <button type="submit" class="btn btn-block btn-primary">Crear cuenta</button>  
