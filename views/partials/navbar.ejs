@@ -1,50 +1,59 @@
 <header>
-    <!-- Navbar -->
-<nav class="navbar navbar-expand-lg bg-link navbar-dark ">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-link navbar-dark">
     <!-- Container wrapper -->
     <div class="container-fluid p-2">
-  
       <!-- LOGO -->
       <h3>Music<i class="fas fa-plus fa-sm"></i></h3>
-  
+
       <!-- Boton toggle (PARA PANTALLAS PEQUEÑAS)-->
-      <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <i class="fas fa-bars"></i>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav p-2 me-auto mb-4 mb-lg-0">
-  
           <!-- Inicio -->
           <li class="nav-item">
-            <a class="nav-link text-white" href="#">Inicio</a>
+            <a class="nav-link text-white" href="/home">Inicio</a>
           </li>
-  
-            <!-- Perfil de usuario -->
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#">Perfil</a>
-              </li>
-              
-            <!-- Playlists -->
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#">Playlists</a>
-              </li>
+
+          <!-- Perfil de usuario -->
+          <li class="nav-item">
+            <a class="nav-link text-white" href="perfil/<%= usuario %> "
+              >Perfil</a
+            >
+          </li>
+
+          <!-- Playlists -->
+          <li class="nav-item">
+            <a class="nav-link text-white" href="">Playlists</a>
+          </li>
         </ul>
-  
-  
+
         <!-- Busqueda -->
         <form class="w-auto d-flex">
-          <input type="search" class="form-control" placeholder="Buscar" aria-label="Search">
+          <input
+            type="search"
+            class="form-control"
+            placeholder="Buscar"
+            aria-label="Search"
+          />
           <span class="input-group-text border-0" id="search-addon">
             <i class="fas fa-search"></i>
           </span>
         </form>
-  
       </div>
     </div>
     <!-- Container wrapper -->
   </nav>
   <!-- Navbar -->
-
-
 </header>

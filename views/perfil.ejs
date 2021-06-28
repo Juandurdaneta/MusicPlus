@@ -1,0 +1,45 @@
+<%- include("partials/header");  %> 
+<%- include("partials/navbar");  %> 
+
+<section id="perfilUsuario" class="cuerpoInicio fullPage">
+
+    <div class="container">
+        <div class="row">
+          <div class="col-xl-5">
+            <div class="row">
+              <div class="col-xl-8 black">
+                <h1> <%= nombreUsuario  %>  </h1>
+                <hr>
+                <br>
+                <%   var emailUsuario = emailUsuario %> 
+                <%   var emailSesion =  emailSesion %> 
+                
+                 <% if ( emailUsuario == emailSesion ) { %>
+                  <button class="btn btn-light btn-block">Editar perfil</button>
+                <a class="btn btn-dark btn-block" href="/cerrar-sesion">Cerrar sesion</a>
+                 <% } %> 
+                
+              </div>
+             </div>
+           </div>
+          <div class="col-xl-6">
+            <div class="row">
+              <div class="col-xl-12 red">
+                <% if ( emailUsuario == emailSesion ) { %>
+                 <h2>Tus playlists</h2>
+                 <% } else { %> 
+                  <h2>Playlists de <%= nombreUsuario %>  </h2>
+                  <% } %> 
+                <hr>
+              </div>
+             </div>
+           </div>
+          </div>
+        </div>
+               
+
+</section>
+<script>
+
+</script>
+<%- include("partials/footer"); %>

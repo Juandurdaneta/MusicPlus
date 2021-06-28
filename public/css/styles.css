@@ -1,218 +1,208 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 
-body{
-    background-color: #040714;
-    color: #ffffff;
-    font-family: 'Open Sans', sans-serif;
+body {
+  background-color: #040714;
+  color: #ffffff;
+  font-family: "Open Sans", sans-serif;
 }
 
-h1{
-    font-size: 3rem;
-    font-weight: 800;
+h1 {
+  font-size: 3rem;
+  font-weight: 800;
 }
 
-.cuerpoInicio{
-    padding: 5% 7%;
+.cuerpoInicio {
+  padding: 5% 7%;
 }
 
-
+.fullPage {
+  height: 100vh;
+}
 
 @media (max-width: 769px) {
-    
-    .cuerpoInicio{
-        margin: 8% auto;
-    }
-    
+  .cuerpoInicio {
+    margin: 8% auto;
+  }
 }
 
-.logo  a{
-    color: #ffffff
+.logo a {
+  color: #ffffff;
 }
 
-.logo a:hover{
-    color:#ffffff;
+.logo a:hover {
+  color: #ffffff;
 }
 
-.btn-primary{
-    font-weight: 700;
-    font-size: 1rem;
+.btn-primary {
+  font-weight: 700;
+  font-size: 1rem;
 }
 /** PAGINA DE INICIO */
 
-
 /** BARRA DE NAVEGACION INICIO */
-.btn-inicio{
-    font-size: 1rem;
+.btn-inicio {
+  font-size: 1rem;
 }
-nav{
-    margin: 0 2%;
-}
-
-.btn-iniciar-sesion{
-    background-color: #000000;
-    color: #f9f9f9;
+nav {
+  margin: 0 2%;
 }
 
-.btn-iniciar-sesion:hover{
-    background-color: #f9f9f9;
-    color: #000000;
+.btn-iniciar-sesion {
+  background-color: #000000;
+  color: #f9f9f9;
 }
 
+.btn-iniciar-sesion:hover {
+  background-color: #f9f9f9;
+  color: #000000;
+}
 
 /**  PORTADA   */
 
-.main-text{
-    padding: 4%;
+.main-text {
+  padding: 4%;
 }
 
-
-.btn-registro{
-    width: 70%;
+.btn-registro {
+  width: 70%;
 }
 
 @media (max-width: 769px) {
-    .main-text{
-        margin-top: 5rem;
-        text-align: center;
-    }
-    .main-text h1{
-        font-size: 2.8rem;
-    }
-    .btn-registro{
-        width: 100%;
-    }
+  .main-text {
+    margin-top: 5rem;
+    text-align: center;
+  }
+  .main-text h1 {
+    font-size: 2.8rem;
+  }
+  .btn-registro {
+    width: 100%;
+  }
 }
 
 /**  NUEVOS LANZAMIENTOS **/
 
-.album{
-    margin-top: 5%;
+.album {
+  margin-top: 5%;
 }
-.albumCover{
-    width: 280px
+.albumCover {
+  width: 280px;
 }
 
 @media (max-width: 769px) {
-    
-    .albumCover{
-        width: 200px
-    }
-    
+  .albumCover {
+    width: 200px;
+  }
 }
 
 /* CARACTERISTICAS */
 
 @media (max-width: 769px) {
-    
-    .texto-promocion h1, p{
-     text-align: center;
-    }
-    
+  .texto-promocion h1,
+  p {
+    text-align: center;
+  }
 }
 
 /** FIN PAGINA DE INICIO */
 
 /** PAGINA INICIAR SESION / REGISTRAR USUARIO */
 
-
 /** INICIO DE SESION */
-.loginRegister{
-    background-color: #1a1d29;
-    height: 100vh;
+.loginRegister {
+  background-color: #1a1d29;
+  height: 100vh;
 }
 
 @media (max-width: 769px) {
-    
-    .loginRegister{
-     margin: 0%;
-    }
+  .loginRegister {
+    margin: 0%;
+  }
 
-    .login-form button{
-        margin-top: 1.8rem;
-    }
+  .login-form button {
+    margin-top: 1.8rem;
+  }
 
-    .login-container{
-       padding: 0%;
-
-    }
-    
+  .login-container {
+    padding: 0%;
+  }
 }
-.formulario input{
-    border: 1px solid #a6a6a7 ;
-    background-color: #31343e;
-    color: #ffffff;
+.formulario input {
+  border: 1px solid #a6a6a7;
+  background-color: #31343e;
+  color: #ffffff;
 }
 
-.formulario input:focus{
-    border: 1px solid #a6a6a7 ;
-    background-color: #31343e;
-    color: #ffffff;
+.formulario input:focus {
+  border: 1px solid #a6a6a7;
+  background-color: #31343e;
+  color: #ffffff;
 }
 
-.formulario input::placeholder{
-    color: #cdcfd6;
+.formulario input::placeholder {
+  color: #cdcfd6;
 }
-.formulario h4{
-    margin-bottom: 20px;
-    font-weight: 800;
+.formulario h4 {
+  margin-bottom: 20px;
+  font-weight: 800;
 }
-.login-input{
-    margin-bottom: 5%;
+.login-input {
+  margin-bottom: 5%;
 }
 
-.texto-nuevo-usuario p{
-    color:#a6a6a7;
-    display: inline;
+.texto-nuevo-usuario p {
+  color: #a6a6a7;
+  display: inline;
 }
 
 /** REGISTRO */
 
-.form-registro p{
-    color: rgb(212, 211, 211);
+.form-registro p {
+  color: rgb(212, 211, 211);
 }
 
-#inicioSesionRed{
-    position: absolute;
-    color: #cacaca;
-    left: 88%;
-    top: 5%;
-    font-weight: 600;
+#inicioSesionRed {
+  position: absolute;
+  color: #cacaca;
+  left: 88%;
+  top: 5%;
+  font-weight: 600;
 }
 
-#inicioSesionRed:hover{
-    color:#ffffff;
+#inicioSesionRed:hover {
+  color: #ffffff;
 }
 
 @media (max-width: 769px) {
-    
-  #inicioSesionRed{
-      left: 78%;
-      top: 3%;
-      font-size: .9rem;
+  #inicioSesionRed {
+    left: 78%;
+    top: 3%;
+    font-size: 0.9rem;
   }
 
-  .formulario p{
-      text-align: start;
+  .formulario p {
+    text-align: start;
   }
-    
 }
-
 
 /** HOMEPAGE */
 
 /**Carousel */
 
-@media (min-width: 780px){
-    .carousel .carousel-item {
-        height: 500px;
-      }
-      
-      .carousel .carousel-item img {
-          position: absolute;
-          object-fit:cover;
-          top: 0;
-          left: 0;
-          min-height: 500px;
-      }
-      
+@media (min-width: 780px) {
+  .carousel .carousel-item {
+    height: 500px;
+  }
+
+  .carousel .carousel-item img {
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    min-height: 500px;
+  }
+}
+
+.datosUsuario {
+  margin-right: 8%;
 }
