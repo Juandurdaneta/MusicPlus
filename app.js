@@ -1,6 +1,7 @@
 //jshint esversion:6
 const express = require("express");
 const app = express();
+const fs = require('fs')
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const _ = require("lodash");
@@ -154,32 +155,9 @@ app.get("/perfil/:id", (req, res) => {
     });
   }
 });
-// CANCIONES FAVORITAS DEL USUARIO
-
-app.get("/perfil/:id/canciones-favoritas", (req, res) =>{
-
-    Usuario.findOne({_id: req.params.id}, (err, UsuarioEncontrado) =>{
-      res.render("playlists", {idSesion: req.session.idSess , playlist: UsuarioEncontrado.playlists[0]})
-    })
-
-})
 
 
-// ALBUM
-
-app.get("/album/:idAlbum", (req,res) =>{
-  const albumSolicitado  = (req.params.idAlbum);
-  
-  Album.findOne({_id: albumSolicitado}, (err, albumEncontrado)=>{
-    if(!err){
-      res.render("album", {idSesion: req.session.idSess, album: albumEncontrado})
-    }
-  })
-
-})
-
-
-// SUBIR IMAGEN
+// SUBIR IMAGEN DE PERFIL 
 app.post("/upload", (req, res) =>{
   let imagenSubida;
   let rutaImagenPerfil;
@@ -199,6 +177,54 @@ app.post("/upload", (req, res) =>{
   })
 
 })
+// CANCIONES FAVORITAS DEL USUARIO
+
+app.get("/perfil/:id/canciones-favoritas", (req, res) =>{
+
+    Usuario.findOne({_id: req.params.id}, (err, UsuarioEncontrado) =>{
+      res.render("playlists", {idSesion: req.session.idSess , playlist: UsuarioEncontrado.playlists[0]})
+    })
+
+})
+
+// ELIMINAR CUENTA DE USUARIO
+
+app.post("/eliminarCuenta", (req, res)=>{
+  const path = __dirname+"/public/images/"+req.session.idSess+".png";
+  try{
+
+    Usuario.findByIdAndRemove( req.session.idSess , (err)=>{
+      if(err){
+        console.log(err);
+      }else{
+        fs.unlinkSync(path)
+        res.redirect("/");
+      }
+    })
+
+    res.redirect("/perfil/"+req.session.idSess);
+
+  }catch(err){
+    console.log(err);
+  }
+});
+
+
+
+// ALBUM
+
+app.get("/album/:idAlbum", (req,res) =>{
+  const albumSolicitado  = (req.params.idAlbum);
+  
+  Album.findOne({_id: albumSolicitado}, (err, albumEncontrado)=>{
+    if(!err){
+      res.render("album", {idSesion: req.session.idSess, album: albumEncontrado})
+    }
+  })
+
+})
+
+
 
 
 // CERRAR SESION
