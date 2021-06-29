@@ -1,45 +1,160 @@
-<%- include("partials/header");  %> 
-<%- include("partials/navbar");  %> 
+<%- include("partials/header"); %> 
+<%- include("partials/navbar"); %>
 
 <section id="perfilUsuario" class="cuerpoInicio fullPage">
-
-    <div class="container">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-5 col-md-5">
         <div class="row">
-          <div class="col-xl-5">
-            <div class="row">
-              <div class="col-xl-8 black">
-                <h1> <%= nombreUsuario  %>  </h1>
-                <hr>
-                <br>
-                <%   var emailUsuario = emailUsuario %> 
-                <%   var emailSesion =  emailSesion %> 
-                
-                 <% if ( emailUsuario == emailSesion ) { %>
-                  <button class="btn btn-light btn-block">Editar perfil</button>
-                <a class="btn btn-dark btn-block" href="/cerrar-sesion">Cerrar sesion</a>
-                 <% } %> 
-                
-              </div>
-             </div>
-           </div>
-          <div class="col-xl-6">
-            <div class="row">
-              <div class="col-xl-12 red">
-                <% if ( emailUsuario == emailSesion ) { %>
-                 <h2>Tus playlists</h2>
-                 <% } else { %> 
-                  <h2>Playlists de <%= nombreUsuario %>  </h2>
-                  <% } %> 
-                <hr>
-              </div>
-             </div>
-           </div>
+          <div
+            class="col-xl-8 col-md-8 black text-center justify-content-center"
+          >
+            <div class="circle">
+              <img src="/images/<%= usuarioEncontrado._id %>.png" alt="" srcset="">
+            </div>
+            <h1><%= usuarioEncontrado.username %></h1>
+            <hr />
+            <br />
+
+            <% if ( usuarioEncontrado.email == emailSesion ) { %>
+            <button
+              class="btn btn-light btn-block"
+              data-mdb-toggle="modal"
+              data-mdb-target="#modalEditarPerfil"
+            >
+              Editar perfil
+            </button>
+            <a class="btn btn-dark btn-block" href="/cerrar-sesion"
+              >Cerrar sesion</a
+            >
+            <% } %>
           </div>
         </div>
-               
+      </div>
+      <div class="col-xl-6 col-md-6 playlists">
+        <div class="row">
+          <div class="col-xl-12 col-md-12">
+            <% if ( usuarioEncontrado.email == emailSesion ) { %>
+            <h2>Tus playlists</h2>
+            <% } else { %>
+            <h2>Playlists de <%= usuarioEncontrado.username %></h2>
+            <% } %>
+            <hr />
 
+            <% usuarioEncontrado.playlists.forEach(playlist => { %> 
+            <% if(playlist.nombre == "Canciones Favoritas") { %>
+            <div class="col-xl-4 text-center">
+              <a
+                href="/perfil/<%= usuarioEncontrado._id %>/canciones-favoritas"
+                class="text-white"
+              >
+                <i class="fa fa-heart fa-8x" aria-hidden="true"></i>
+                <h5>Canciones Favoritas</h5>
+              </a>
+            </div>
+            <% } %> <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div
+    class="modal fade"
+    id="modalEditarPerfil"
+    tabindex="-1"
+    aria-labelledby="modalEditarPerfil"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button
+            type="button"
+            class="btn btn-floating text-white"
+            data-mdb-dismiss="modal"
+            aria-label="Close"
+          >
+            X
+          </button>
+
+          <div class="row d-flex justify-content-center">
+            <div class="col-xl-12 col-12">
+              <h2 class="text-center">Editar perfil</h2>
+              <hr />
+            </div>
+
+            <div class="col-xl-12">
+              <h5>Cambiar imagen de perfil</h5>
+              <form action="/upload" method="post" ref='uploadForm' encType="multipart/form-data" id='uploadForm'>
+                <input
+                  type="file"
+                  name="imagenPerfil"
+                  id="imagenPerfil"
+                  class="text-gray form-control bg-dark"
+                />
+                <br />
+                <button type="submit" class="btn btn-light btn-block">
+                  Cambiar imagen
+                </button>
+              </form>
+              <hr />
+            </div>
+            <div class="col-xl-12">
+              <h5>Cambiar contraseña</h5>
+              <form action="">
+                <div class="form-outline mb-4">
+                  <input
+                    type="password"
+                    name="contraseñaActual"
+                    id="contraseñaActual"
+                    class="form-control bg-dark"
+                  />
+                  <label for="contraseñaActual" class="form-label text-white-50"
+                    >Contraseña actual
+                  </label>
+                </div>
+                <div class="form-outline mb-4">
+                  <input
+                    type="password"
+                    name="nuevaContraseña"
+                    id="nuevaContraseña"
+                    class="form-control bg-dark"
+                  />
+                  <label for="nuevaContraseña" class="form-label text-white-50"
+                    >Nueva contraseña
+                  </label>
+                </div>
+                <div class="form-outline mb-4">
+                  <input
+                    type="password"
+                    name="nuevaContraseñaConfirmar"
+                    id="nuevaContraseñaConfirmar"
+                    class="form-control bg-dark"
+                  />
+                  <label
+                    for="nuevaContraseñaConfirmar"
+                    class="form-label text-white-50"
+                    >Confirmar contraseña
+                  </label>
+                </div>
+                <button type="submit" class="btn btn-light btn-block">
+                  Cambiar contraseña
+                </button>
+              </form>
+              <hr />
+            </div>
+
+            <div class="col-xl-12">
+              <a href="" class="btn btn-dark btn-block">Eliminar cuenta</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIN MODAL-->
 </section>
-<script>
-
-</script>
+<script></script>
 <%- include("partials/footer"); %>

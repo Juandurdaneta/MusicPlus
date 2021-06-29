@@ -6,6 +6,11 @@ let cancionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  fechaLanzamiento : {
+    type: Date, 
+    default: Date.now
+  }
+  
 });
 //SCHEMA ALBUM
 
@@ -26,7 +31,7 @@ const playlistSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  canciones: [cancionSchema],
+  canciones: [cancionSchema]
 });
 
 //SCHEMA ARTISTA
@@ -58,8 +63,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  cancionesFavoritas: [cancionSchema],
-  playlists: [playlistSchema],
+  playlists: [playlistSchema]
 });
 
 //EXPORTANDO SCHEMAS

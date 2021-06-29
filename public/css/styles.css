@@ -19,6 +19,10 @@ h1 {
   height: 100vh;
 }
 
+.btn{
+  font-weight: 500;
+}
+
 @media (max-width: 769px) {
   .cuerpoInicio {
     margin: 8% auto;
@@ -202,7 +206,41 @@ nav {
     min-height: 500px;
   }
 }
+ /** PERFIL DE USUARIO */
 
-.datosUsuario {
-  margin-right: 8%;
+.circle{
+  background-color: white;
+  border-radius: 50%;
+  width: 300px;
+  height: 300px;
+  margin-left: 20px;
+}
+
+.circle img{
+  text-align: center;
+  object-fit: cover;
+  border-radius: 50%;
+  width: 300px;
+  height: 300px;
+}
+
+
+
+@media (max-width: 769px) {
+  .circle{
+    position: relative;
+    margin-left: 12%;
+  }
+  .playlists{
+    margin-top: 18%;
+  }
+}
+
+.modal-content{
+  background-color: #262b40;
+  color:white;
+}
+
+.text-gray{
+  color: #a6a6a7;
 }
