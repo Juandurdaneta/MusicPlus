@@ -5,6 +5,7 @@ window.onload=()=>{
     var portadaAlbum = document.getElementById("portadaAlbum");
     var listaCanciones = document.getElementById("listaCanciones");
     var cancionesAlbum = document.getElementById("cancionesAlbum");
+    var enlacePerfil = document.getElementById("enlacePerfil")
 
     datos = {
         method: "GET"
@@ -16,6 +17,10 @@ window.onload=()=>{
     .then(response => response.json())
     .then(data =>{
         if(data.status == 200){
+            // ASIGNANDO EL ENLACE DEL PERFIL DE USUARIO
+            var enlace = "/perfil/"+data.idSesion;
+            enlacePerfil.setAttribute("href", enlace)
+
             // TITULO DEL ALBUM
             tituloAlbum.innerHTML = data.album.nombreAlbum;
 

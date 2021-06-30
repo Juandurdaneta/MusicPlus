@@ -102,10 +102,12 @@ rel="stylesheet"
               </div>
               <br>
               <h2 id="nombreUsuario"></h2>
+
               <hr />
+             
+
               <br />
   
-             
               <button id="btnEditarUsuario"
                 class="btn btn-light btn-block"
                 data-mdb-toggle="modal"
@@ -161,6 +163,7 @@ rel="stylesheet"
             <div class="row d-flex justify-content-center">
               <div class="col-xl-12 col-12">
                 <h2 class="text-center">Editar perfil</h2>
+
                 <hr />
               </div>
   
@@ -172,6 +175,7 @@ rel="stylesheet"
                     name="imagenPerfil"
                     id="imagenPerfil"
                     class="text-gray form-control bg-dark"
+                    required
                   />
                   <br />
                   <button type="submit" class="btn btn-light btn-block">
@@ -182,13 +186,15 @@ rel="stylesheet"
               </div>
               <div class="col-xl-12">
                 <h5>Cambiar contraseña</h5>
-                <form action="">
+                <p id="mensajeExito"></p>
+                <form id="formularioContraseña">
                   <div class="form-outline mb-4">
                     <input
                       type="password"
                       name="contraseñaActual"
                       id="contraseñaActual"
                       class="form-control bg-dark"
+                      required
                     />
                     <label for="contraseñaActual" class="form-label text-white-50"
                       >Contraseña actual
@@ -200,6 +206,7 @@ rel="stylesheet"
                       name="nuevaContraseña"
                       id="nuevaContraseña"
                       class="form-control bg-dark"
+                      required
                     />
                     <label for="nuevaContraseña" class="form-label text-white-50"
                       >Nueva contraseña
@@ -211,6 +218,7 @@ rel="stylesheet"
                       name="nuevaContraseñaConfirmar"
                       id="nuevaContraseñaConfirmar"
                       class="form-control bg-dark"
+                      required
                     />
                     <label
                       for="nuevaContraseñaConfirmar"
@@ -218,7 +226,7 @@ rel="stylesheet"
                       >Confirmar contraseña
                     </label>
                   </div>
-                  <button type="submit" class="btn btn-light btn-block">
+                  <button class="btn btn-light btn-block">
                     Cambiar contraseña
                   </button>
                 </form>

@@ -1,6 +1,7 @@
+const idRequerida = window.location.pathname.split('/');
+
 window.onload=()=>{
     // VARIABLES
-    const idRequerida = window.location.pathname.split('/');
     var enlacePerfil = document.getElementById("enlacePerfil")
     var nombreUsuario = document.getElementById("nombreUsuario")
     var btnEditarUsuario = document.getElementById("btnEditarUsuario");
@@ -63,3 +64,35 @@ window.onload=()=>{
     })
 
 }
+
+// CAMBIO DE CONTRASEÑA
+var formularioContraseña = document.getElementById("formularioContraseña");
+var mensajeExito = document.getElementById("mensajeExito");
+
+const cambioContraseña =(e)=>{
+    e.preventDefault();
+    if(formularioContraseña.checkValidity()){
+        var formulario = new FormData(formularioContraseña);
+        let myHeaders = new Headers();
+        let datos = {
+            method: "POST",
+            headers: myHeaders,
+            body: formulario
+        }
+
+        fetch("/perfil/"+idRequerida[2], datos)
+        .then(response => response.json())
+        .then(data=>{
+            if(data.status == 200){
+                mensajeExito.innerHTML = data.mensaje;
+            } else{
+                mensajeExito.innerHTML = data.mensaje;
+            }
+        }).catch(err=> console.log('Error: ',err));
+
+    } else{
+        alert("Complete el formulario.")
+    }
+}
+
+formularioContraseña.addEventListener("submit", cambioContraseña);

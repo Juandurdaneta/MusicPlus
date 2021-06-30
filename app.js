@@ -29,6 +29,7 @@ mongoose.connect(
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
+    useFindAndModify: false
   }
 );
 
@@ -160,6 +161,53 @@ app.get("/perfil/:id", (req, res) => {
   }
 });
 
+app.post("/perfil/:id", (req, res) =>{
+  // VARIABLES OBTENIDAS DEL FORMULARIO
+  var contraseñaActual = req.body.contraseñaActual;
+  const nuevaContraseña = req.body.nuevaContraseña;
+  const nuevaContraseñaConfirmar = req.body.nuevaContraseñaConfirmar;
+// HALLANDO LA CONTRASEÑA DEL USUARIO EN LA BASE DE DATOS
+  Usuario.findOne({_id: req.params.id}, (err, UsuarioEncontrado) =>{
+      if( bcrypt.compareSync(contraseñaActual, UsuarioEncontrado.password)){
+        if(nuevaContraseña == nuevaContraseñaConfirmar){
+          const hashPass = bcrypt.hashSync(nuevaContraseña, saltRounds);
+
+// EN CASO DE QUE LAS CONTRASEÑAS COINCIDAN CON LA DE LA BASE DE DATOS
+          Usuario.findOneAndUpdate({_id: req.params.id}, {password: hashPass}, (err)=>{
+            if(!err){
+              res.send({
+                'status': 200,
+                'mensaje' : "Contraseña cambiada exitosamente!."
+              })
+            } else{
+              res.send({
+                'status': 100,
+                'mensaje': "Ha ocurrido un error, vuelve a intentarlo."
+              })
+            }
+          } )
+
+          // EN CASO DE QUE LAS CONTRASEÑAS NO COINCIDAN
+
+        } else{
+          res.send({
+            'status': 100,
+            'mensaje': "Las contraseñas no coinciden."
+          })
+        }
+// EN CASO DE QUE LA CONTRASEÑA ACTUAL NO COINCIDA CON LA DE LA BASE DE DATOS
+      } else {
+        res.send({
+          'status': 100,
+          'mensaje': "Contraseña incorrecta."
+        })
+      }
+  })
+
+
+})
+
+
 app.get("/perfil/:id/obtenerDatos", (req, res) =>{
 
 Usuario.findOne({_id: req.params.id},(err, UsuarioEncontrado)=>{
@@ -197,15 +245,7 @@ app.post("/upload", (req, res) =>{
   })
 
 })
-// CANCIONES FAVORITAS DEL USUARIO
 
-app.get("/perfil/:id/canciones-favoritas", (req, res) =>{
-
-    Usuario.findOne({_id: req.params.id}, (err, UsuarioEncontrado) =>{
-      res.render("playlists", {idSesion: req.session.idSess , playlist: UsuarioEncontrado.playlists[0]})
-    })
-
-})
 
 // ELIMINAR CUENTA DE USUARIO
 
@@ -239,11 +279,6 @@ app.get("/album/:idAlbum", (req,res) =>{
  
   res.sendFile(__dirname+"/views/album.html")
 
-  // Album.findOne({_id: albumSolicitado}, (err, albumEncontrado)=>{
-  //   if(!err){
-  //     res.render("album", {idSesion: req.session.idSess, album: albumEncontrado})
-  //   }
-  // })
 
 })
 
