@@ -31,7 +31,9 @@ const playlistSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  canciones: [cancionSchema]
+  canciones: [cancionSchema],
+  propietario: mongoose.Schema.Types.ObjectId,
+  imagenPortada : String
 });
 
 //SCHEMA ARTISTA
@@ -63,7 +65,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  playlists: [playlistSchema]
+  playlists: [playlistSchema],
+  imagenPerfil: String
 });
 
 //EXPORTANDO SCHEMAS

@@ -103,21 +103,28 @@ app.post("/register", (req, res) => {
   const hashPass = bcrypt.hashSync(pass, saltRounds);
 
 
-  const playlistPorDefecto = new Playlist({
-    nombre: "Canciones Favoritas de " + usuario 
-  })
-
-  playlistPorDefecto.save();
+  
 
   const nuevoUsuario = new Usuario({
     username: usuario,
     email: email,
-    password: hashPass,
-    playlists: [playlistPorDefecto] 
+    password: hashPass
   });
   
+ 
 
-  nuevoUsuario.save()
+  nuevoUsuario.save((err, usuario)=>{
+
+    const playlistPorDefecto = new Playlist({
+      nombre: "Canciones Favoritas de "+usuario.username,
+      propietario: usuario._id
+    });
+
+    playlistPorDefecto.save();
+    usuario.playlists.push(playlistPorDefecto);
+    usuario.save();
+
+  })
   res.send({"Status": 200,
           "mensaje":"Usuario creado Exitosamente!."
         });
@@ -212,6 +219,8 @@ app.get("/perfil/:id/obtenerDatos", (req, res) =>{
 
 Usuario.findOne({_id: req.params.id},(err, UsuarioEncontrado)=>{
   if(!err){
+
+  
     res.send({
       'status': 200,
       'usuario': UsuarioEncontrado,
@@ -235,14 +244,20 @@ app.post("/upload", (req, res) =>{
   imagenSubida = req.files.imagenPerfil;
   rutaImagenPerfil = __dirname + "/public/images/"+ req.session.idSess+".png";
 
-  imagenSubida.mv(rutaImagenPerfil, function(err) {
+  Usuario.findOneAndUpdate({_id:req.session.idSess}, {imagenPerfil: req.session.idSess}, (err)=>{
     if(!err){
-      console.log("Imagen Subida exitosamente!");
-      res.redirect("/perfil/"+req.session.idSess);
-    }else{
-      console.log("No funciono");
+      imagenSubida.mv(rutaImagenPerfil, function(err) {
+        if(!err){
+          console.log("Imagen Subida exitosamente!");
+          res.redirect("/perfil/"+req.session.idSess);
+        }else{
+          console.log("No funciono");
+        }
+      })
     }
-  })
+  });
+
+
 
 })
 
@@ -293,6 +308,55 @@ Album.findOne({_id: req.params.idAlbum},(err, albumEncontrado)=>{
     })
   }
 })
+
+})
+// PLAYLIST
+app.get("/playlist/:idPlaylist", (req, res) =>{
+  res.sendFile(__dirname+"/views/playlist.html")
+})
+
+app.get("/playlist/:idPlaylist/obtenerDatos", (req,res)=>{
+  Playlist.findOne({_id: req.params.idPlaylist}, (err, playlistEncontrada)=>{
+    if(!err){
+      Usuario.findOne({_id: req.session.idSess}, (err, UsuarioEncontrado)=>{
+        res.send({
+          'status' : 200,
+          'playlist' : playlistEncontrada,
+          'idSesion': req.session.idSess,
+          'usuario': UsuarioEncontrado
+        })
+      })
+     
+    }
+  })
+})
+
+
+//SEGUIR PLAYLIST
+
+app.get("/playlist/seguir/:idPlaylist", (req, res)=>{
+  const idPlaylistASeguir = req.params.idPlaylist;
+  const idUsuario = req.session.idSess;
+
+  Playlist.findOne({_id: idPlaylistASeguir}, (err, playlist)=>{
+    Usuario.findOne({_id: idUsuario},(err, usuario) =>{
+      usuario.playlists.push(playlist);
+      usuario.save();
+      res.redirect("/playlist/"+idPlaylistASeguir);
+    })
+  })
+
+})
+// DEJAR DE SEGUIR PLAYLIST
+app.get("/playlist/dejar-de-seguir/:idPlaylist", (req, res)=>{
+  const idPlaylistADejarDeSeguir = req.params.idPlaylist;
+  const idUsuario = req.session.idSess;
+
+  Usuario.findOneAndUpdate({_id: idUsuario}, {$pull: {playlists: {_id: idPlaylistADejarDeSeguir}}}, (err, usuario )=>{
+    if(!err){
+      res.redirect("/playlist/"+idPlaylistADejarDeSeguir);
+    }
+  })
 
 })
 

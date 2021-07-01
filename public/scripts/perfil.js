@@ -26,30 +26,48 @@ window.onload=()=>{
             nombreUsuario.innerHTML = data.usuario.username;
             
             // UBICACION DEL ARCHIVO DE LA IMAGEN DE PERFIL DEL USUARIO
-            const enlaceImagen = "/images/"+data.usuario._id+".png";
+           var enlaceImagen
+           var enlacePlaylist
+
+            if(data.usuario.imagenPerfil == null){
+                enlaceImagen = "/images/defaultProfile.jpg";
+            } else{
+                enlaceImagen = "/images/"+data.usuario.imagenPerfil+".png";
+            }
+
             imagenPerfil.setAttribute("src", enlaceImagen )
+
+            
 
             // PLAYLISTS DEL USUARIO
             data.usuario.playlists.forEach(playlist => {
+
+                if(playlist.imagenPortada == null){
+                    enlacePlaylist = "/images/defaultPlaylist.png";
+                } else{
+                    enlacePlaylist = "/images/"+playlist.imagenPortada+".png"
+                }
                 //CREANDO NUEVOS ELEMENTOS HTML
                 var nuevoDiv = document.createElement('div');
                 var nuevoAnchor = document.createElement('a');
                 var nuevaImagen = document.createElement('img');
                
                // CLASES DE LOS ELEMENTOS
-                nuevoDiv.classList.add("col-6");
                 nuevoDiv.classList.add("col-xl-4");
+                nuevoDiv.classList.add("col-6");
+                nuevoDiv.classList.add("col-md-5");
                 nuevoDiv.classList.add("text-center");
-
+                nuevoDiv.classList.add("left");
                 nuevoAnchor.classList.add("text-white");
 
-                nuevaImagen.classList.add("img-fluid");
+                nuevaImagen.classList.add("portada");
 
-                nuevaImagen.setAttribute("src", enlaceImagen);
 
+                nuevaImagen.setAttribute("src", enlacePlaylist);
+                nuevoAnchor.setAttribute("href","/playlist/"+playlist._id);
                 nuevoAnchor.append(nuevaImagen, playlist.nombre);
-                nuevoDiv.append(nuevoAnchor);
-                playlistsUsuario.append(nuevoDiv);
+                nuevoDiv.appendChild(nuevoAnchor);
+                playlistsUsuario.appendChild(nuevoDiv);
 
             });
 

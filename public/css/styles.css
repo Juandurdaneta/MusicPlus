@@ -27,9 +27,35 @@ h1 {
   display: none;
 }
 
+.left{
+  float:left;
+  margin-right: 2%;  
+}
+
+.portada{
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+
+.portada-lg{
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+}
+
 @media (max-width: 769px) {
   .cuerpoInicio {
     margin: 8% auto;
+  }
+  .left{
+    margin: 0%;
+  }
+  .left img{
+    width: 150px;
+    height: 150px;
+    
   }
 }
 
