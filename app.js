@@ -7,8 +7,6 @@ const _ = require("lodash");
 const schema = require(__dirname + "/model/Schemas.js");
 const session = require("express-session");
 const fileUpload = require('express-fileupload');
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
 
 app.use(
   session({
@@ -67,7 +65,7 @@ app.post("/login", (req, res) => {
                     "mensaje":"No existe usuario para ese correo electronico."
                   });
         } else if (
-          bcrypt.compareSync(contraseñaIngresada, usuarioEncontrado.password)
+          contraseñaIngresada == usuarioEncontrado.password
         ) {
           // SI LAS CONTRASEÑAS COINCIDEN ENTONCES SE INICIA LA SESION Y SE DESPACHA AL USUARIO A LA VISTA PRINCIPAL DE LA PAGINA
           req.session.email = req.body.correoElectronico;
@@ -100,7 +98,7 @@ app.post("/register", (req, res) => {
   const email = req.body.mail;
   // HASHING
   const pass = req.body.pass;
-  const hashPass = bcrypt.hashSync(pass, saltRounds);
+
 
 
   
@@ -108,7 +106,7 @@ app.post("/register", (req, res) => {
   const nuevoUsuario = new Usuario({
     username: usuario,
     email: email,
-    password: hashPass
+    password: pass
   });
   
  
@@ -175,12 +173,12 @@ app.post("/perfil/:id", (req, res) =>{
   const nuevaContraseñaConfirmar = req.body.nuevaContraseñaConfirmar;
 // HALLANDO LA CONTRASEÑA DEL USUARIO EN LA BASE DE DATOS
   Usuario.findOne({_id: req.params.id}, (err, UsuarioEncontrado) =>{
-      if( bcrypt.compareSync(contraseñaActual, UsuarioEncontrado.password)){
+      if( contraseñaActual == UsuarioEncontrado.password){
         if(nuevaContraseña == nuevaContraseñaConfirmar){
-          const hashPass = bcrypt.hashSync(nuevaContraseña, saltRounds);
+          
 
 // EN CASO DE QUE LAS CONTRASEÑAS COINCIDAN CON LA DE LA BASE DE DATOS
-          Usuario.findOneAndUpdate({_id: req.params.id}, {password: hashPass}, (err)=>{
+          Usuario.findOneAndUpdate({_id: req.params.id}, {password: nuevaContraseña}, (err)=>{
             if(!err){
               res.send({
                 'status': 200,
