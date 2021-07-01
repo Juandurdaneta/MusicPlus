@@ -2,7 +2,6 @@
 const express = require("express");
 const app = express();
 const fs = require('fs')
-const ejs = require("ejs");
 const mongoose = require("mongoose");
 const _ = require("lodash");
 const schema = require(__dirname + "/model/Schemas.js");
@@ -18,7 +17,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(fileUpload());
 app.use(express.json()); 
@@ -31,6 +29,7 @@ mongoose.connect(
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
+    useFindAndModify: false
   }
 );
 
@@ -42,21 +41,17 @@ const Artista = schema.getArtista();
 const Album = schema.getAlbum();
 
 
-const playlistPorDefecto = new Playlist({
-  nombre: "Canciones Favoritas"
-})
-
 
 // ROUTING
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.sendFile(__dirname+"/views/index.html");
 });
 
 // LOGIN
 
 app.get("/login", (req, res) => {
-  res.render("login", { MensajeError: "" });
+  res.sendFile(__dirname+"/views/login.html");
 });
 
 app.post("/login", (req, res) => {
@@ -68,20 +63,23 @@ app.post("/login", (req, res) => {
       if (!err) {
         if (usuarioEncontrado == null) {
           // EN CASO DE QUE NO SE CONSIGA NINGUN USUARIO CON ESE CORREO
-          res.render("login", {
-            MensajeError: "No hay cuenta para ese correo",
-          });
+          res.send({"Status": 100,
+                    "mensaje":"No existe usuario para ese correo electronico."
+                  });
         } else if (
           bcrypt.compareSync(contraseñaIngresada, usuarioEncontrado.password)
         ) {
           // SI LAS CONTRASEÑAS COINCIDEN ENTONCES SE INICIA LA SESION Y SE DESPACHA AL USUARIO A LA VISTA PRINCIPAL DE LA PAGINA
           req.session.email = req.body.correoElectronico;
           req.session.idSess = usuarioEncontrado._id  //SE LE AGREGA EL ID A LA SESION
-            res.redirect("/home");
+          res.send({"Status": 200,
+          "mensaje":"Funciono"
+        });
         } else {
-          res.render("login", {
-            MensajeError: "Contraseña incorrecta, intentalo de nuevo.",
-          });
+          // SI LAS CONTRASEÑAS NO COINCIDEN
+          res.send({"Status": 100,
+          "mensaje":"Credenciales incorrectas, vuelva a intentarlo."
+        });
         }
       } else {
         // EN CASO DE QUE HAYA ALGUN ERROR
@@ -94,7 +92,7 @@ app.post("/login", (req, res) => {
 // REGISTRO
 
 app.get("/register", (req, res) => {
-  res.render("register", { UsuarioAgregado: "" });
+  res.sendFile(__dirname+"/views/register.html");
 });
 
 app.post("/register", (req, res) => {
@@ -104,36 +102,60 @@ app.post("/register", (req, res) => {
   const pass = req.body.pass;
   const hashPass = bcrypt.hashSync(pass, saltRounds);
 
+
+  
+
   const nuevoUsuario = new Usuario({
     username: usuario,
     email: email,
-    password: hashPass,
-    playlists: [playlistPorDefecto] 
+    password: hashPass
   });
   
+ 
 
-  nuevoUsuario.save().then(
-    res.render("register", {
-      UsuarioAgregado: "Te haz registrado exitosamente!",
-    })
-  );
+  nuevoUsuario.save((err, usuario)=>{
+
+    const playlistPorDefecto = new Playlist({
+      nombre: "Canciones Favoritas de "+usuario.username,
+      propietario: usuario._id
+    });
+
+    playlistPorDefecto.save();
+    usuario.playlists.push(playlistPorDefecto);
+    usuario.save();
+
+  })
+  res.send({"Status": 200,
+          "mensaje":"Usuario creado Exitosamente!."
+        });
+
 });
 
 // VISTA MAIN
 
 app.get("/home", (req, res) => {
-  if (req.session.email == null) {
-    // SI LA SESION NO TIENE CORREO ELECTRONICO QUIERE DECIR QUE EL USUARIO NO HA INICIADO SESION, POR LO TANTO SE LE REDIRIGE AL LOGIN
+   if (req.session.email == null) {
+   // SI LA SESION NO TIENE CORREO ELECTRONICO QUIERE DECIR QUE EL USUARIO NO HA INICIADO SESION, POR LO TANTO SE LE REDIRIGE AL LOGIN
     res.redirect("/login");
-  } else {
-        Album.find({}, (err, albumsEncontrados) =>{
-          if(!err){
-            res.render("homepage", { idSesion: req.session.idSess, albums: albumsEncontrados });
-          }
-        })
-      }
-    });
+   } else {
+  res.sendFile(__dirname+"/views/homepage.html");
+}
 
+
+});
+
+
+app.get("/home/obtenerDatos", (req,res) =>{
+  Album.find({}, (err, albumsEncontrados) =>{
+    if(!err){
+      res.send({
+        'status': 200,
+        'albums': albumsEncontrados,
+        'idSesion': req.session.idSess
+      })
+    }
+  })
+})
 
 // PERFIL DE USUARIO
 
@@ -141,20 +163,75 @@ app.get("/perfil/:id", (req, res) => {
 
   if (req.session.email == null) {
     res.redirect("/login");
-  } else {
-    Usuario.findOne({ _id: req.params.id }, (err, UsuarioEncontrado) => {
-      if (!err) {
-        res.render("perfil", {
-          usuarioEncontrado: UsuarioEncontrado,
-          idSesion: req.session.idSess,
-          emailSesion: req.session.email,
-        });
-      }  else{
-        console.log(err);
-      }
-    });
+  } else{
+    res.sendFile(__dirname+"/views/perfil.html")
   }
 });
+
+app.post("/perfil/:id", (req, res) =>{
+  // VARIABLES OBTENIDAS DEL FORMULARIO
+  var contraseñaActual = req.body.contraseñaActual;
+  const nuevaContraseña = req.body.nuevaContraseña;
+  const nuevaContraseñaConfirmar = req.body.nuevaContraseñaConfirmar;
+// HALLANDO LA CONTRASEÑA DEL USUARIO EN LA BASE DE DATOS
+  Usuario.findOne({_id: req.params.id}, (err, UsuarioEncontrado) =>{
+      if( bcrypt.compareSync(contraseñaActual, UsuarioEncontrado.password)){
+        if(nuevaContraseña == nuevaContraseñaConfirmar){
+          const hashPass = bcrypt.hashSync(nuevaContraseña, saltRounds);
+
+// EN CASO DE QUE LAS CONTRASEÑAS COINCIDAN CON LA DE LA BASE DE DATOS
+          Usuario.findOneAndUpdate({_id: req.params.id}, {password: hashPass}, (err)=>{
+            if(!err){
+              res.send({
+                'status': 200,
+                'mensaje' : "Contraseña cambiada exitosamente!."
+              })
+            } else{
+              res.send({
+                'status': 100,
+                'mensaje': "Ha ocurrido un error, vuelve a intentarlo."
+              })
+            }
+          } )
+
+          // EN CASO DE QUE LAS CONTRASEÑAS NO COINCIDAN
+
+        } else{
+          res.send({
+            'status': 100,
+            'mensaje': "Las contraseñas no coinciden."
+          })
+        }
+// EN CASO DE QUE LA CONTRASEÑA ACTUAL NO COINCIDA CON LA DE LA BASE DE DATOS
+      } else {
+        res.send({
+          'status': 100,
+          'mensaje': "Contraseña incorrecta."
+        })
+      }
+  })
+
+
+})
+
+
+app.get("/perfil/:id/obtenerDatos", (req, res) =>{
+
+Usuario.findOne({_id: req.params.id},(err, UsuarioEncontrado)=>{
+  if(!err){
+
+  
+    res.send({
+      'status': 200,
+      'usuario': UsuarioEncontrado,
+      'idSesion':  req.session.idSess
+    })
+  }
+})
+
+})
+  
+ 
 
 
 // SUBIR IMAGEN DE PERFIL 
@@ -167,25 +244,23 @@ app.post("/upload", (req, res) =>{
   imagenSubida = req.files.imagenPerfil;
   rutaImagenPerfil = __dirname + "/public/images/"+ req.session.idSess+".png";
 
-  imagenSubida.mv(rutaImagenPerfil, function(err) {
+  Usuario.findOneAndUpdate({_id:req.session.idSess}, {imagenPerfil: req.session.idSess}, (err)=>{
     if(!err){
-      console.log("Imagen Subida exitosamente!");
-      res.redirect("/perfil/"+req.session.idSess);
-    }else{
-      console.log("No funciono");
+      imagenSubida.mv(rutaImagenPerfil, function(err) {
+        if(!err){
+          console.log("Imagen Subida exitosamente!");
+          res.redirect("/perfil/"+req.session.idSess);
+        }else{
+          console.log("No funciono");
+        }
+      })
     }
-  })
+  });
+
+
 
 })
-// CANCIONES FAVORITAS DEL USUARIO
 
-app.get("/perfil/:id/canciones-favoritas", (req, res) =>{
-
-    Usuario.findOne({_id: req.params.id}, (err, UsuarioEncontrado) =>{
-      res.render("playlists", {idSesion: req.session.idSess , playlist: UsuarioEncontrado.playlists[0]})
-    })
-
-})
 
 // ELIMINAR CUENTA DE USUARIO
 
@@ -198,6 +273,7 @@ app.post("/eliminarCuenta", (req, res)=>{
         console.log(err);
       }else{
         fs.unlinkSync(path)
+      req.session.destroy();
         res.redirect("/");
       }
     })
@@ -215,16 +291,74 @@ app.post("/eliminarCuenta", (req, res)=>{
 
 app.get("/album/:idAlbum", (req,res) =>{
   const albumSolicitado  = (req.params.idAlbum);
+ 
+  res.sendFile(__dirname+"/views/album.html")
+
+
+})
+
+app.get("/album/:idAlbum/obtenerDatos", (req, res) =>{
   
-  Album.findOne({_id: albumSolicitado}, (err, albumEncontrado)=>{
+Album.findOne({_id: req.params.idAlbum},(err, albumEncontrado)=>{
+  if(!err){
+    res.send({
+      'status': 200,
+      'album': albumEncontrado,
+      'idSesion':  req.session.idSess
+    })
+  }
+})
+
+})
+// PLAYLIST
+app.get("/playlist/:idPlaylist", (req, res) =>{
+  res.sendFile(__dirname+"/views/playlist.html")
+})
+
+app.get("/playlist/:idPlaylist/obtenerDatos", (req,res)=>{
+  Playlist.findOne({_id: req.params.idPlaylist}, (err, playlistEncontrada)=>{
     if(!err){
-      res.render("album", {idSesion: req.session.idSess, album: albumEncontrado})
+      Usuario.findOne({_id: req.session.idSess}, (err, UsuarioEncontrado)=>{
+        res.send({
+          'status' : 200,
+          'playlist' : playlistEncontrada,
+          'idSesion': req.session.idSess,
+          'usuario': UsuarioEncontrado
+        })
+      })
+     
+    }
+  })
+})
+
+
+//SEGUIR PLAYLIST
+
+app.get("/playlist/seguir/:idPlaylist", (req, res)=>{
+  const idPlaylistASeguir = req.params.idPlaylist;
+  const idUsuario = req.session.idSess;
+
+  Playlist.findOne({_id: idPlaylistASeguir}, (err, playlist)=>{
+    Usuario.findOne({_id: idUsuario},(err, usuario) =>{
+      usuario.playlists.push(playlist);
+      usuario.save();
+      res.redirect("/playlist/"+idPlaylistASeguir);
+    })
+  })
+
+})
+// DEJAR DE SEGUIR PLAYLIST
+app.get("/playlist/dejar-de-seguir/:idPlaylist", (req, res)=>{
+  const idPlaylistADejarDeSeguir = req.params.idPlaylist;
+  const idUsuario = req.session.idSess;
+
+  Usuario.findOneAndUpdate({_id: idUsuario}, {$pull: {playlists: {_id: idPlaylistADejarDeSeguir}}}, (err, usuario )=>{
+    if(!err){
+      res.redirect("/playlist/"+idPlaylistADejarDeSeguir);
     }
   })
 
 })
-
-
 
 
 // CERRAR SESION
