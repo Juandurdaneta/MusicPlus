@@ -9,7 +9,9 @@ let cancionSchema = new mongoose.Schema({
   fechaLanzamiento : {
     type: Date, 
     default: Date.now
-  }
+  },
+  letras: String,
+  autor: mongoose.Schema.Types.ObjectId
   
 });
 //SCHEMA ALBUM
@@ -44,7 +46,7 @@ const ArtistSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  albumes: [AlbumSchema],
+  albumes: [AlbumSchema]
 });
 
 // SCHEMA USUARIO

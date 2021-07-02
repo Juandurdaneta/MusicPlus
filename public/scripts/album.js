@@ -35,6 +35,7 @@ window.onload=()=>{
                 var division = document.createElement('hr');
                 var nuevoAnchor = document.createElement('a');
 
+                nuevoAnchor.setAttribute("href", "/cancion/"+cancion._id);
                 nuevoAnchor.classList.add("text-white");
                 nuevoAnchor.innerHTML = cancion.nombreCancion;
                 nuevoElemento.append(nuevoAnchor);
