@@ -26,13 +26,26 @@ window.onload = () => {
          //nombreArtista = data.artista.nombreArtista;
 
          // CHEQUEANDO SI EL USUARIO TIENE O NO LA CANCION EN FAVORITOS
-        console.log(data.cancion)
-        console.log(data.cancionesFavoritas.canciones)
-        if(data.cancionesFavoritas.canciones.includes(data.cancion)){
-            quitarFavoritos.classList.remove("hide");
-        } else{
-            agregarFavoritos.classList.remove("hide");
+        
+        if(data.cancionesFavoritas.canciones.filter(function(e){ return e.nombreCancion === data.cancion.nombreCancion }).length > 0){
+          quitarFavoritos.classList.remove("hide");
+          quitarFavoritos.setAttribute("href", "/cancion/"+data.cancion._id+"/"+data.cancionesFavoritas._id+"/quitar");
+        } else {
+          agregarFavoritos.classList.remove("hide");
+          agregarFavoritos.setAttribute("href", "/cancion/"+data.cancion._id+"/"+data.cancionesFavoritas._id+"/agregar");
         }
+
+        // FECHA LANZAMIENTO DE LA CANCION
+        const opciones = {
+          month: "long",
+          day: "numeric",
+          year: "numeric"
+        };
+        const fecha = new Date(data.cancion.fechaLanzamiento);
+        fecha.setDate(fecha.getDate());
+
+        fechaLanzamiento.innerHTML = fecha.toLocaleDateString(undefined, opciones);
+
       }
     });
 };

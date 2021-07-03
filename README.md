@@ -1,7 +1,7 @@
 ![Logo MusicPlus](public/icons/logo.png?raw=true)
 # MusicPlus
 Music+ Es un servicio de streaming de musica basado en Spotify.
-Proyecto N2 Para la materia de Desarrollo Web II
+Proyecto N2 Para la materia de Desarrollo Web II.
 Desarrollado por Juan Urdaneta C.I 27.683.174
 
 ## Funcionalidades de la web

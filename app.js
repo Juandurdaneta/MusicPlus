@@ -276,33 +276,72 @@ app.get("/album/:idAlbum/obtenerDatos", (req, res) => {
 
 // CANCION
 app.get("/cancion/:idCancion", (req, res) => {
-  res.sendFile(__dirname + "/views/cancion.html");
+  if(req.session.idSess != null){
+    res.sendFile(__dirname + "/views/cancion.html");
+  } else{
+    res.redirect("/login")
+  }
 });
 
 app.get("/cancion/:idCancion/obtenerDatos", (req, res) => {
-  Cancion.findOne({ _id: req.params.idCancion }, (err, cancionEncontrada) => {
-    Usuario.findOne({ _id: req.session.idSess }, (err, UsuarioEncontrado) => {
-      
-      
-      Playlist.findOne(
-        {
-          nombre: /Canciones Favoritas de /i,
-          propietario: UsuarioEncontrado._id,
-        },
-        (err, cancionesFavoritas) => {
-          if (!err) {
-            res.send({
-              status: 200,
-              cancion: cancionEncontrada,
-              sesionUsuario: UsuarioEncontrado,
-              cancionesFavoritas : cancionesFavoritas
-            });
+
+  if(req.session.idSess == null){
+    res.redirect("/login");
+  } else{
+    Cancion.findOne({ _id: req.params.idCancion }, (err, cancionEncontrada) => {
+      Usuario.findOne({ _id: req.session.idSess }, (err, UsuarioEncontrado) => {
+        
+        
+        Playlist.findOne(
+          {
+            nombre: /Canciones Favoritas de /i,
+            propietario: UsuarioEncontrado._id,
+          },
+          (err, cancionesFavoritas) => {
+            if (!err) {
+              res.send({
+                status: 200,
+                cancion: cancionEncontrada,
+                sesionUsuario: UsuarioEncontrado,
+                cancionesFavoritas : cancionesFavoritas
+              });
+            }
           }
-        }
-      );
+        );
+      });
     });
-  });
+  }
+ 
 });
+
+
+app.get("/cancion/:idCancion/:idPlaylist/agregar", (req, res)=> {
+  const cancionRequerida = req.params.idCancion;
+  const playlistRequerida = req.params.idPlaylist;
+
+  Playlist.findOne({_id: playlistRequerida}, (err, playlistEncontrada) =>{
+    Cancion.findOne({_id: cancionRequerida}, (err, cancionEncontrada) =>{
+      if(!err){
+       playlistEncontrada.canciones.push(cancionEncontrada);
+       playlistEncontrada.save().then(res.redirect("/cancion/"+cancionRequerida));
+       
+      }
+    })
+  })
+
+})
+
+app.get("/cancion/:idCancion/:idPlaylist/quitar", (req, res) =>{
+  const cancionRequerida = req.params.idCancion;
+  const playlistRequerida = req.params.idPlaylist;
+
+  Playlist.findOneAndUpdate({_id: playlistRequerida}, {$pull: {canciones: {_id: cancionRequerida} }}, (err, playlist)=>{
+    if(!err){
+      res.redirect("/cancion/"+cancionRequerida);
+    }
+  })
+
+})
 
 // PLAYLIST
 app.get("/playlist/:idPlaylist", (req, res) => {
