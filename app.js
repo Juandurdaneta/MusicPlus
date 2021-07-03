@@ -399,39 +399,18 @@ app.get("/playlist/dejar-de-seguir/:idPlaylist", (req, res) => {
   );
 });
 
-
 // BUSQUEDA 
 
-app.post("/busqueda", (req, res) =>{
-  const query = req.body.busqueda;
-  const resultados = [];
+app.get("/buscar", (req, res) =>{
+  res.sendFile(__dirname+"/views/buscar.html");
+})
 
-  Playlist.find({nombre : query}, (err, playlistsEncontradas) =>{
-    resultados.push(playlistsEncontradas)
-  });
+app.post("/buscar", (req, res) =>{
+  const query = req.body.busqueda;
+
   Cancion.find({nombreCancion:  { $regex: '.*' + query + '.*', $options: 'i' }}, (err, cancionesEncontradas) =>{
     console.log(cancionesEncontradas);
   })
-
-
- 
-
-  // Playlist.findOne(
-  //   {
-  //     nombre: /Canciones Favoritas de /i,
-  //     propietario: UsuarioEncontrado._id,
-  //   },
-  //   (err, cancionesFavoritas) => {
-  //     if (!err) {
-  //       res.send({
-  //         status: 200,
-  //         cancion: cancionEncontrada,
-  //         sesionUsuario: UsuarioEncontrado,
-  //         cancionesFavoritas : cancionesFavoritas
-  //       });
-  //     }
-  //   }
-  // );
 })
 
 

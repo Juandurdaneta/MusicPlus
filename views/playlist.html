@@ -1,144 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Font Awesome -->
-<link
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-rel="stylesheet"
-/>
-<!-- Google Fonts -->
-<link
-href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-rel="stylesheet"
-/>
-<!-- MDB -->
-<link
-href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css"
-rel="stylesheet"
-/>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css"
+      rel="stylesheet"
+    />
 
-<!-- CSS-->
-    <link rel="stylesheet" href="/css/styles.css">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS-->
+    <link rel="stylesheet" href="/css/styles.css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Music+</title>
-    <link rel="shortcut icon" href="/icons/favicon.ico" type="image/x-icon">
-</head>
+    <link rel="shortcut icon" href="/icons/favicon.ico" type="image/x-icon" />
+  </head>
 
-
-<body>
-
-
+  <body>
     <header>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg bg-link navbar-dark">
-          <!-- Container wrapper -->
-          <div class="container-fluid p-2">
-            <!-- LOGO -->
-            <h3>Music<i class="fas fa-plus fa-sm"></i></h3>
-      
-            <!-- Boton toggle (PARA PANTALLAS PEQUEÑAS)-->
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-mdb-toggle="collapse"
-              data-mdb-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <i class="fas fa-bars"></i>
-            </button>
-      
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav p-2 me-auto mb-4 mb-lg-0">
-                <!-- Inicio -->
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="/home">Inicio</a>
-                </li>
-      
-                <!-- Perfil de usuario -->
-                <li class="nav-item">
-                  <a class="nav-link text-white" id="enlacePerfil" href="/perfil"
-                    >Perfil</a
-                  >
-                </li>
-      
-                <!-- Playlists -->
-                <li class="nav-item">
-                  <a class="nav-link text-white">Playlists</a>
-                </li>
-              </ul>
-      
-              <!-- Busqueda -->
-              <form class="w-auto d-flex" method="get" action="/busqueda">
-                <input
-                  type="search"
-                  class="form-control"
-                  placeholder="Buscar"
-                  aria-label="Search"
-                  name="busqueda"
-                  id="busqueda"
-                />
-                <span class="input-group-text border-0" id="search-addon">
-                  <i class="fas fa-search"></i>
-                </span>
-              </form>
-            </div>
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg bg-link navbar-dark">
+        <!-- Container wrapper -->
+        <div class="container-fluid p-2">
+          <!-- LOGO -->
+          <h3>Music<i class="fas fa-plus fa-sm"></i></h3>
+
+          <!-- Boton toggle (PARA PANTALLAS PEQUEÑAS)-->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-mdb-toggle="collapse"
+            data-mdb-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <i class="fas fa-bars"></i>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav p-2 me-auto mb-4 mb-lg-0">
+              <!-- Inicio -->
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/home">Inicio</a>
+              </li>
+
+              <!-- Perfil de usuario -->
+              <li class="nav-item">
+                <a class="nav-link text-white" id="enlacePerfil" href="/perfil"
+                  >Perfil</a
+                >
+              </li>
+
+              <!-- Buscar -->
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/buscar">
+                  <i class="fa fa-search" aria-hidden="true"></i> Buscar</a
+                >
+              </li>
+            </ul>
           </div>
-          <!-- Container wrapper -->
-        </nav>
-        <!-- Navbar -->
-      </header>
+        </div>
+        <!-- Container wrapper -->
+      </nav>
+      <!-- Navbar -->
+    </header>
 
-      <!-- SECCION playlist -->
+    <!-- SECCION playlist -->
 
-      <section id="playlist" class="cuerpoInicio fullPage">
-        <div class="container">
+    <section id="playlist" class="cuerpoInicio fullPage">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-5 col-md-5">
             <div class="row">
-              <div class="col-xl-5 col-md-5">
-                <div class="row">
-                  <div
-                    class="col-xl-8 col-md-8 black text-center justify-content-center"
-                  >
-                    <img id="portadaPlaylist" class="img-fluid portada-lg" alt="" srcset="">
-                   <br>
-                    <br>
-                    <h3 id="tituloPlaylist"></h3>
-                    <hr />
+              <div
+                class="
+                  col-xl-8 col-md-8
+                  black
+                  text-center
+                  justify-content-center
+                "
+              >
+                <img
+                  id="portadaPlaylist"
+                  class="img-fluid portada-lg"
+                  alt=""
+                  srcset=""
+                />
+                <br />
+                <br />
+                <h3 id="tituloPlaylist"></h3>
+                <hr />
 
-                    
-                  <button class="btn btn-block btn-dark hide" id="btnEditar"> Editar playlist</button>
-                  <a class="btn btn-block btn-light hide" id="btnSeguir">Seguir playlist</a>
-                  <a class="btn btn-block btn-dark hide" id="btnDejarDeSeguir"> Dejar de seguir playlist</a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-6 col-md-6 ">
-                <div class="row">
-                    <p class="text-start" id="listaCanciones"> </p>
-                    <br>
-                    <br>
-                    <ol id="cancionesPlaylist">
-                    
-                    </ol>
-                </div>
+                <button class="btn btn-block btn-dark hide" id="btnEditar">
+                  Editar playlist
+                </button>
+                <a class="btn btn-block btn-light hide" id="btnSeguir"
+                  >Seguir playlist</a
+                >
+                <a class="btn btn-block btn-dark hide" id="btnDejarDeSeguir">
+                  Dejar de seguir playlist</a
+                >
               </div>
             </div>
           </div>
-    
+          <div class="col-xl-6 col-md-6">
+            <div class="row">
+              <p class="text-start" id="listaCanciones"></p>
+              <br />
+              <br />
+              <ol id="cancionesPlaylist"></ol>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
-    
-    
-    
-
 
     <script
-  type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"
-></script>
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"
+    ></script>
 
-<script src="/scripts/playlist.js"></script>
-</body>
+    <script src="/scripts/playlist.js"></script>
+  </body>
 </html>

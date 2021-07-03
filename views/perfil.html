@@ -1,265 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Font Awesome -->
-<link
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-rel="stylesheet"
-/>
-<!-- Google Fonts -->
-<link
-href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-rel="stylesheet"
-/>
-<!-- MDB -->
-<link
-href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css"
-rel="stylesheet"
-/>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css"
+      rel="stylesheet"
+    />
 
-<!-- CSS-->
-    <link rel="stylesheet" href="/css/styles.css">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS-->
+    <link rel="stylesheet" href="/css/styles.css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Music+</title>
-    <link rel="shortcut icon" href="/icons/favicon.ico" type="image/x-icon">
-</head>
-<body>
+    <link rel="shortcut icon" href="/icons/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
     <header>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg bg-link navbar-dark">
-          <!-- Container wrapper -->
-          <div class="container-fluid p-2">
-            <!-- LOGO -->
-            <h3>Music<i class="fas fa-plus fa-sm"></i></h3>
-      
-            <!-- Boton toggle (PARA PANTALLAS PEQUEÑAS)-->
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-mdb-toggle="collapse"
-              data-mdb-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <i class="fas fa-bars"></i>
-            </button>
-      
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav p-2 me-auto mb-4 mb-lg-0">
-                <!-- Inicio -->
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="/home">Inicio</a>
-                </li>
-      
-                <!-- Perfil de usuario -->
-                <li class="nav-item">
-                  <a class="nav-link text-white" id="enlacePerfil" href="/perfil"
-                    >Perfil</a
-                  >
-                </li>
-      
-                <!-- Playlists -->
-                <li class="nav-item">
-                  <a class="nav-link text-white">Playlists</a>
-                </li>
-              </ul>
-      
-              <!-- Busqueda -->
-              <form class="w-auto d-flex" method="get" action="/busqueda">
-                <input
-                  type="search"
-                  class="form-control"
-                  placeholder="Buscar"
-                  aria-label="Search"
-                  name="busqueda"
-                  id="busqueda"
-                />
-                <span class="input-group-text border-0" id="search-addon">
-                  <i class="fas fa-search"></i>
-                </span>
-              </form>
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg bg-link navbar-dark">
+        <!-- Container wrapper -->
+        <div class="container-fluid p-2">
+          <!-- LOGO -->
+          <h3>Music<i class="fas fa-plus fa-sm"></i></h3>
+
+          <!-- Boton toggle (PARA PANTALLAS PEQUEÑAS)-->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-mdb-toggle="collapse"
+            data-mdb-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <i class="fas fa-bars"></i>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav p-2 me-auto mb-4 mb-lg-0">
+              <!-- Inicio -->
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/home">Inicio</a>
+              </li>
+
+              <!-- Perfil de usuario -->
+              <li class="nav-item">
+                <a class="nav-link text-white" id="enlacePerfil" href="/perfil"
+                  >Perfil</a
+                >
+              </li>
+
+              <!-- Buscar -->
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/buscar">
+                  <i class="fa fa-search" aria-hidden="true"></i> Buscar</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Container wrapper -->
+      </nav>
+      <!-- Navbar -->
+    </header>
+
+    <!-- PERFIL DEL USUARIO   -->
+    <section id="perfilUsuario" class="cuerpoInicio fullPage">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-5 col-md-5">
+            <div class="row">
+              <div
+                class="
+                  col-xl-8 col-md-8
+                  black
+                  text-center
+                  justify-content-center
+                "
+              >
+                <div class="circle">
+                  <img id="imagenPerfilUsuario" />
+                </div>
+                <br />
+                <h2 id="nombreUsuario"></h2>
+
+                <hr />
+
+                <br />
+
+                <button
+                  id="btnEditarUsuario"
+                  class="btn btn-light btn-block"
+                  data-mdb-toggle="modal"
+                  data-mdb-target="#modalEditarPerfil"
+                >
+                  Editar perfil
+                </button>
+                <a
+                  id="btnCerrarSesion"
+                  class="btn btn-dark btn-block"
+                  href="/cerrar-sesion"
+                  >Cerrar sesion</a
+                >
+              </div>
             </div>
           </div>
-          <!-- Container wrapper -->
-        </nav>
-        <!-- Navbar -->
-      </header>
-    
-     <!-- PERFIL DEL USUARIO   -->
-<section id="perfilUsuario" class="cuerpoInicio fullPage">
-    <div class="container">
-      <div class="row">
-        <div class="col-xl-5 col-md-5">
-          <div class="row">
-            <div
-              class="col-xl-8 col-md-8 black text-center justify-content-center"
-            >
-              <div class="circle">
-                <img id="imagenPerfilUsuario">
+
+          <!-- PLAYLISTS DEL USUARIO -->
+
+          <div class="col-xl-6 col-md-6 playlists">
+            <div class="row">
+              <div class="col-xl-12 col-md-12">
+                <h2 id="playlistsUsuarioH2">Tus playlists</h2>
+
+                <hr />
+
+                <div class="col-12" id="playlistsUsuario"></div>
               </div>
-              <br>
-              <h2 id="nombreUsuario"></h2>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              <hr />
-             
-
-              <br />
-  
-              <button id="btnEditarUsuario"
-                class="btn btn-light btn-block"
-                data-mdb-toggle="modal"
-                data-mdb-target="#modalEditarPerfil"
+      <!-- MODAL -->
+      <div
+        class="modal fade"
+        id="modalEditarPerfil"
+        tabindex="-1"
+        aria-labelledby="modalEditarPerfil"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <button
+                type="button"
+                class="btn btn-floating text-white"
+                data-mdb-dismiss="modal"
+                aria-label="Close"
               >
-                Editar perfil
+                X
               </button>
-              <a id="btnCerrarSesion" class="btn btn-dark btn-block" href="/cerrar-sesion"
-                >Cerrar sesion</a
-              >
-            </div>
-          </div>
-        </div>
 
-        <!-- PLAYLISTS DEL USUARIO -->
+              <div class="row d-flex justify-content-center">
+                <div class="col-xl-12 col-12">
+                  <h2 class="text-center">Editar perfil</h2>
 
-        <div class="col-xl-6 col-md-6 playlists">
-          <div class="row">
-            <div class="col-xl-12 col-md-12" >
-             
-              <h2 id="playlistsUsuarioH2">Tus playlists</h2>
-            
-              <hr />
+                  <hr />
+                </div>
 
-           
-              <div class="col-12" id="playlistsUsuario">
-
-              </div>
-  
-            </div>
-
-
-
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <!-- MODAL -->
-    <div
-      class="modal fade"
-      id="modalEditarPerfil"
-      tabindex="-1"
-      aria-labelledby="modalEditarPerfil"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-body">
-            <button
-              type="button"
-              class="btn btn-floating text-white"
-              data-mdb-dismiss="modal"
-              aria-label="Close"
-            >
-              X
-            </button>
-  
-            <div class="row d-flex justify-content-center">
-              <div class="col-xl-12 col-12">
-                <h2 class="text-center">Editar perfil</h2>
-
-                <hr />
-              </div>
-  
-              <div class="col-xl-12">
-                <h5>Cambiar imagen de perfil</h5>
-                <form action="/upload" method="post" ref='uploadForm' encType="multipart/form-data" id='uploadForm'>
-                  <input
-                    type="file"
-                    name="imagenPerfil"
-                    id="imagenPerfil"
-                    class="text-gray form-control bg-dark"
-                    required
-                  />
-                  <br />
-                  <button type="submit" class="btn btn-light btn-block">
-                    Cambiar imagen
-                  </button>
-                </form>
-                <hr />
-              </div>
-              <div class="col-xl-12">
-                <h5>Cambiar contraseña</h5>
-                <p id="mensajeExito"></p>
-                <form id="formularioContraseña">
-                  <div class="form-outline mb-4">
+                <div class="col-xl-12">
+                  <h5>Cambiar imagen de perfil</h5>
+                  <form
+                    action="/upload"
+                    method="post"
+                    ref="uploadForm"
+                    enctype="multipart/form-data"
+                    id="uploadForm"
+                  >
                     <input
-                      type="password"
-                      name="contraseñaActual"
-                      id="contraseñaActual"
-                      class="form-control bg-dark"
+                      type="file"
+                      name="imagenPerfil"
+                      id="imagenPerfil"
+                      class="text-gray form-control bg-dark"
                       required
                     />
-                    <label for="contraseñaActual" class="form-label text-white-50"
-                      >Contraseña actual
-                    </label>
-                  </div>
-                  <div class="form-outline mb-4">
-                    <input
-                      type="password"
-                      name="nuevaContraseña"
-                      id="nuevaContraseña"
-                      class="form-control bg-dark"
-                      required
-                    />
-                    <label for="nuevaContraseña" class="form-label text-white-50"
-                      >Nueva contraseña
-                    </label>
-                  </div>
-                  <div class="form-outline mb-4">
-                    <input
-                      type="password"
-                      name="nuevaContraseñaConfirmar"
-                      id="nuevaContraseñaConfirmar"
-                      class="form-control bg-dark"
-                      required
-                    />
-                    <label
-                      for="nuevaContraseñaConfirmar"
-                      class="form-label text-white-50"
-                      >Confirmar contraseña
-                    </label>
-                  </div>
-                  <button class="btn btn-light btn-block">
-                    Cambiar contraseña
-                  </button>
-                </form>
-                <hr />
-              </div>
-  
-              <div class="col-xl-12">
-                <form action="/eliminarCuenta" method="post">
-                <button type="submit" class="btn btn-dark btn-block">Eliminar cuenta</button>
-                </form>
+                    <br />
+                    <button type="submit" class="btn btn-light btn-block">
+                      Cambiar imagen
+                    </button>
+                  </form>
+                  <hr />
+                </div>
+                <div class="col-xl-12">
+                  <h5>Cambiar contraseña</h5>
+                  <p id="mensajeExito"></p>
+                  <form id="formularioContraseña">
+                    <div class="form-outline mb-4">
+                      <input
+                        type="password"
+                        name="contraseñaActual"
+                        id="contraseñaActual"
+                        class="form-control bg-dark"
+                        required
+                      />
+                      <label
+                        for="contraseñaActual"
+                        class="form-label text-white-50"
+                        >Contraseña actual
+                      </label>
+                    </div>
+                    <div class="form-outline mb-4">
+                      <input
+                        type="password"
+                        name="nuevaContraseña"
+                        id="nuevaContraseña"
+                        class="form-control bg-dark"
+                        required
+                      />
+                      <label
+                        for="nuevaContraseña"
+                        class="form-label text-white-50"
+                        >Nueva contraseña
+                      </label>
+                    </div>
+                    <div class="form-outline mb-4">
+                      <input
+                        type="password"
+                        name="nuevaContraseñaConfirmar"
+                        id="nuevaContraseñaConfirmar"
+                        class="form-control bg-dark"
+                        required
+                      />
+                      <label
+                        for="nuevaContraseñaConfirmar"
+                        class="form-label text-white-50"
+                        >Confirmar contraseña
+                      </label>
+                    </div>
+                    <button class="btn btn-light btn-block">
+                      Cambiar contraseña
+                    </button>
+                  </form>
+                  <hr />
+                </div>
+
+                <div class="col-xl-12">
+                  <form action="/eliminarCuenta" method="post">
+                    <button type="submit" class="btn btn-dark btn-block">
+                      Eliminar cuenta
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <!--FIN MODAL-->
-  </section>
-  
+      <!--FIN MODAL-->
+    </section>
 
-
-
-<!-- MDB -->
-<script
-type="text/javascript"
-src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"
-></script>
-<script src="/scripts/perfil.js"></script>
-</body>
+    <!-- MDB -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"
+    ></script>
+    <script src="/scripts/perfil.js"></script>
+  </body>
 </html>

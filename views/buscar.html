@@ -25,7 +25,6 @@
     <title>Music+</title>
     <link rel="shortcut icon" href="/icons/favicon.ico" type="image/x-icon" />
   </head>
-
   <body>
     <header>
       <!-- Navbar -->
@@ -76,45 +75,69 @@
       <!-- Navbar -->
     </header>
 
-    <!-- SECCION ALBUM -->
+    <!-- SECCION BUSQUEDA -->
 
-    <section id="album" class="cuerpoInicio fullPage">
-      <div class="container">
+    <section id="busqueda" class="busqueda">
+      <form id="busquedaUsuario">
         <div class="row">
-          <div class="col-xl-5 col-md-5">
-            <div class="row">
-              <div
-                class="
-                  col-xl-8 col-md-8
-                  black
-                  text-center
-                  justify-content-center
-                "
-              >
-                <img id="portadaAlbum" class="img-fluid" alt="" srcset="" />
-                <h1 id="tituloAlbum"></h1>
-                <hr />
-                <br />
-              </div>
-            </div>
+          <div class="form-outline col-11">
+            <input
+              type="text"
+              name="busqueda"
+              id="busqueda"
+              class="form-control"
+              placeholder="Ingresa el nombre de una cancion, album, artista o playlist"
+            />
           </div>
-          <div class="col-xl-6 col-md-6">
-            <div class="row">
-              <p class="text-start" id="listaCanciones"></p>
-              <br />
-              <br />
-              <ol id="cancionesAlbum"></ol>
-            </div>
+          <div class="col-1 form-outline form-white">
+            <button
+              type="submit"
+              class="btn btn-outline-light btn-floating"
+              name="list"
+            >
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
           </div>
         </div>
+      </form>
+      <br>
+      <div class="text-center">
+        <h1 id="textoBusqueda"></h1>
+        <h5 id="labelResultados"></h5>
+
       </div>
+      <div class="row resultadosBusqueda">
+        <div class="col-6" id="resultadosCanciones">
+
+        </div>
+
+        <div class="col-6" id="resultadosPlaylists">
+        
+          
+        </div>
+
+        <div class="col-6" id="resultadosAlbumes">
+           
+           
+        </div>
+
+        <div class="col-6" id="resultadosArtistas">
+      
+            
+        </div>
+
+        </div>
+
+
     </section>
 
+    <!-- SECCION BUSQUEDA -->
+
+    <!-- MDB -->
     <script
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"
     ></script>
-
-    <script src="/scripts/album.js"></script>
+    <script src="/scripts/buscar.js"></script>
   </body>
 </html>

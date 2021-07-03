@@ -62,26 +62,13 @@
                 >
               </li>
 
-              <!-- Playlists -->
+              <!-- Buscar -->
               <li class="nav-item">
-                <a class="nav-link text-white">Playlists</a>
+                <a class="nav-link text-white" href="/buscar">
+                  <i class="fa fa-search" aria-hidden="true"></i> Buscar</a
+                >
               </li>
             </ul>
-
-            <!-- Busqueda -->
-            <form class="w-auto d-flex" method="get" action="/busqueda">
-              <input
-                type="search"
-                class="form-control"
-                placeholder="Buscar"
-                aria-label="Search"
-                name="busqueda"
-                id="busqueda"
-              />
-              <span class="input-group-text border-0" id="search-addon">
-                <i class="fas fa-search"></i>
-              </span>
-            </form>
           </div>
         </div>
         <!-- Container wrapper -->
@@ -108,11 +95,19 @@
                 <h1 id="tituloCancion"></h1>
                 <h3><a class="text-white" id="nombreArtista"></a></h3>
                 <hr />
-                <a id="favoritos" class="text-white hide" style="font-size: 1.2rem;">
+                <a
+                  id="favoritos"
+                  class="text-white hide"
+                  style="font-size: 1.2rem"
+                >
                   <i class="far fa-heart"></i> Agregar a favoritos</a
                 >
-                <a id="favoritosQuitar" class="text-white hide" style="font-size: 1.2rem;">
-                    <i class="fas fa-heart"></i> Quitar de favoritos
+                <a
+                  id="favoritosQuitar"
+                  class="text-white hide"
+                  style="font-size: 1.2rem"
+                >
+                  <i class="fas fa-heart"></i> Quitar de favoritos
                 </a>
                 <br />
                 <br />

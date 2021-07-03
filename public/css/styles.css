@@ -274,3 +274,17 @@ nav {
 .text-gray{
   color: #a6a6a7;
 }
+
+
+/**  BUSQUEDA */
+
+.busqueda{
+  padding: 0.2% 5%;
+}
+
+.resultadosBusqueda{
+}
+
+.resultadosBusqueda .col-6{
+  margin: 5% auto 10%;
+}
