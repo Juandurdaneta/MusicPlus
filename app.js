@@ -399,6 +399,42 @@ app.get("/playlist/dejar-de-seguir/:idPlaylist", (req, res) => {
   );
 });
 
+
+// BUSQUEDA 
+
+app.post("/busqueda", (req, res) =>{
+  const query = req.body.busqueda;
+  const resultados = [];
+
+  Playlist.find({nombre : query}, (err, playlistsEncontradas) =>{
+    resultados.push(playlistsEncontradas)
+  });
+  Cancion.find({nombreCancion:  { $regex: '.*' + query + '.*', $options: 'i' }}, (err, cancionesEncontradas) =>{
+    console.log(cancionesEncontradas);
+  })
+
+
+ 
+
+  // Playlist.findOne(
+  //   {
+  //     nombre: /Canciones Favoritas de /i,
+  //     propietario: UsuarioEncontrado._id,
+  //   },
+  //   (err, cancionesFavoritas) => {
+  //     if (!err) {
+  //       res.send({
+  //         status: 200,
+  //         cancion: cancionEncontrada,
+  //         sesionUsuario: UsuarioEncontrado,
+  //         cancionesFavoritas : cancionesFavoritas
+  //       });
+  //     }
+  //   }
+  // );
+})
+
+
 // CERRAR SESION
 
 app.get("/cerrar-sesion", (req, res) => {
