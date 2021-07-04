@@ -436,6 +436,14 @@ app.post("/buscar", (req, res) =>{
       })
     } )
   })
+});
+
+// DATOS DE LA SESION
+app.get("/sesion", (req, res) =>{
+  res.send({
+    status: 200,
+    sesion: req.session.idSess
+  })
 })
 
 

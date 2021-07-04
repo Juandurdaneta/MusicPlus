@@ -4,7 +4,7 @@ var textoBusqueda = document.getElementById("textoBusqueda");
 var labelResultados = document.getElementById("labelResultados");
 
 var canciones = document.getElementById("canciones");
-var resultadosCanciones = document.getElementById("resultadosCanciones").innerHTML="";
+var resultadosCanciones = document.getElementById("resultadosCanciones");
 var listaCanciones = document.getElementById("listaCanciones");
 
 var playlists = document.getElementById("playlists");
@@ -19,8 +19,18 @@ var artistas = document.getElementById("artistas");
 var resultadosArtistas = document.getElementById("resultadosArtistas");
 var listaArtistas = document.getElementById("listaArtistas");
 
+// OBTENIENDO LA SESION ACTUAL
+window.onload=()=>{
+    fetch("/sesion", {method: "GET"})
+    .then((response) => response.json())
+    .then((data)=>{
+        if(data.status == 200){
+           document.getElementById("enlacePerfil").setAttribute("href", "/perfil/"+data.sesion); 
+        }
+    })
+}
+// OBTENIENDO RESULTADOS DE LA BUSQUEDA
 const busqueda = (e) => {
-
   e.preventDefault();
   if (busquedaUsuario.checkValidity()) {
     var formulario = new FormData(busquedaUsuario);
@@ -34,11 +44,9 @@ const busqueda = (e) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.status == 200) {
-
           textoBusqueda.innerHTML = '"' + data.busqueda + '"';
 
           labelResultados.innerHTML = "Todos los resultados";
-          
           // CANCIONES ENCONTRADAS
           if (data.canciones.length > 0) {
             canciones.classList.remove("hide");
@@ -99,7 +107,6 @@ const busqueda = (e) => {
             });
           }
 
-
           //ARTISTAS ENCONTRADOS
           if (data.artistas.length > 0) {
             artistas.classList.remove("hide");
@@ -119,9 +126,6 @@ const busqueda = (e) => {
               listaArtistas.append(division);
             });
           }
-
-
-
         } else {
           console.log("Error");
         }
