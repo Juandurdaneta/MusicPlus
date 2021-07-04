@@ -63,10 +63,10 @@ rel="stylesheet"
               background: #040714bb;
             ">
           <div class="container-fluid d-flex align-items-center justify-content-start text-start h-100">
-            <div class="text-white main-text animate__animated animate__fadeInLeft">
-                <h2 class="mb-4">Music<i class="fas fa-plus fa-sm"></i></h2>
-              <h1 class="mb-4 ">Toda la mejor musica,<br>en un mismo lugar.</h1>
-              <a class="btn btn-primary btn-inicio btn-registro mb-4" href="register">Unete ahora</a>
+            <div class="text-white main-text">
+                <h2 class="mb-4  animate__animated animate__fadeInLeft">Music<i class="fas fa-plus fa-sm"></i></h2>
+              <h1 class="mb-4  animate__animated animate__fadeInLeft">Toda la mejor musica,<br>en un mismo lugar.</h1>
+              <a class="btn btn-primary btn-inicio btn-registro mb-4  animate__animated animate__fadeInLeft animate__delay-1s" href="register">Unete ahora</a>
             </div>
           </div>
         </div>
@@ -75,11 +75,11 @@ rel="stylesheet"
     
     <!-- SECCION NUEVOS LANZAMIENTOS -->
     
-    <section id="nuevosLanzamientos" class="cuerpoInicio">
+    <section  class="cuerpoInicio">
     
         <div class="container text-center">
                     <h1>Disfruta de nuevos<br> lanzamientos</h1>
-                <div class="row lanzamientos">
+                <div class="row lanzamientos" id="nuevosLanzamientos">
                     <div class="col-lg-4 col-6 album">
                         <img src="https://t2.genius.com/unsafe/725x0/https%3A%2F%2Fimages.genius.com%2Fc9cd454fad021ccad858fc703d3dbc6d.1000x1000x1.png" alt="" class="albumCover">
                     </div>
@@ -108,11 +108,11 @@ rel="stylesheet"
     
      <!-- SECCION CARACTERISTICAS -->
     
-    <section id="caracteristicas" class="cuerpoInicio hide">
+    <section class="cuerpoInicio">
         <div class="container">
     
-            <div class="row">
-                <div class="col-lg-6 texto-promocion">
+            <div class="row hide" id="caracteristicas">
+                <div class="col-lg-6 texto-promocion" >
                     <h1>Crea y Comparte Playlists</h1>
                     <p>Crea listas de reproducciones y compartelas con tus amigos. Escucha tu musica cuando quieras y donde quieras. </p>
                 </div>
@@ -181,13 +181,17 @@ window.onscroll = function (e)
      nuevosLanzamientos.classList.remove("hide");
      nuevosLanzamientos.classList.add("animate__animated");
      nuevosLanzamientos.classList.add("animate__fadeInUp");
+     nuevosLanzamientos.classList.add("animate__delay-1s");
+
 
 
    }
-   if(window.pageYOffset > 1020){
+   if(window.pageYOffset > 1010){
     caracteristicas.classList.remove("hide");
     caracteristicas.classList.add("animate__animated");
     caracteristicas.classList.add("animate__fadeInRight");
+    caracteristicas.classList.add("animate__delay-1s");
+
 
    }
 }

@@ -409,7 +409,32 @@ app.post("/buscar", (req, res) =>{
   const query = req.body.busqueda;
 
   Cancion.find({nombreCancion:  { $regex: '.*' + query + '.*', $options: 'i' }}, (err, cancionesEncontradas) =>{
-    console.log(cancionesEncontradas);
+    Album.find({nombreAlbum:  { $regex: '.*' + query + '.*', $options: 'i' } }, (err, albumesEncontrados) =>{
+      Artista.find({nombreArtista :{ $regex: '.*' + query + '.*', $options: 'i' } }, (err, artistasEncontrados) =>{
+        Playlist.find({nombre: { $regex: '.*' + query + '.*', $options: 'i' }}, (err, playlistsEncontradas) =>{
+
+
+          if(!err){
+            res.send({
+              status: 200,
+              canciones: cancionesEncontradas,
+              albumes: albumesEncontrados,
+              artistas: artistasEncontrados,
+              playlists: playlistsEncontradas,
+              idSesion: req.session.idSess,
+              busqueda : query
+            })
+          } else {
+            res.send({
+              status: 100
+            })
+          }
+     
+
+
+        })
+      })
+    } )
   })
 })
 

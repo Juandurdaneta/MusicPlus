@@ -78,28 +78,13 @@
     <!-- SECCION BUSQUEDA -->
 
     <section id="busqueda" class="busqueda">
-      <form id="busquedaUsuario">
-        <div class="row">
-          <div class="form-outline col-11">
-            <input
-              type="text"
-              name="busqueda"
-              id="busqueda"
-              class="form-control"
-              placeholder="Ingresa el nombre de una cancion, album, artista o playlist"
-            />
-          </div>
-          <div class="col-1 form-outline form-white">
-            <button
-              type="submit"
-              class="btn btn-outline-light btn-floating"
-              name="list"
-            >
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-          </div>
-        </div>
-      </form>
+  <form id="busquedaUsuario" class=" form-outline form-white">
+    <div class="input-group input-group-lg">
+      <span class="input-group-text border-0 px-1" id="basic-addon2"><i class="fas fa-search fa-lg" style="color: #939597;"></i></span>
+      <input type="text" class="form-control form-control-lg rounded" placeholder="Ingresa el nombre de una cancion, album, artista o playlist"
+        aria-label="Search" name="busqueda" aria-describedby="basic-addon2" />
+    </div>
+  </form>
       <br>
       <div class="text-center">
         <h1 id="textoBusqueda"></h1>
@@ -107,23 +92,33 @@
 
       </div>
       <div class="row resultadosBusqueda">
-        <div class="col-6" id="resultadosCanciones">
+        <div class="col-6 hide" id="canciones">
+          <h3 id=resultadosCanciones></h3>
+          <ol id="listaCanciones">
 
+          </ol>
         </div>
 
-        <div class="col-6" id="resultadosPlaylists">
-        
+        <div class="col-6 hide" id="playlists">
+        <h3 id="resultadosPlaylists"></h3>
+        <ol id="listaPlaylists">
+
+        </ol>
           
         </div>
 
-        <div class="col-6" id="resultadosAlbumes">
-           
-           
+        <div class="col-6 hide" id="albumes">
+           <h3  id="resultadosAlbumes"></h3>
+           <ol id="listaAlbumes">
+
+          </ol>
         </div>
 
-        <div class="col-6" id="resultadosArtistas">
-      
-            
+        <div class="col-6" id="artistas">
+         <h3 id="resultadosArtistas"></h3>
+         <ol id="listaArtistas">
+
+        </ol>
         </div>
 
         </div>
