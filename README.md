@@ -11,7 +11,7 @@ Desarrollado por Juan Urdaneta C.I 27.683.174
 - [ ] Reproducción de canciones.
 - [ ] Vista de estadisticas para administrador.
 - [x] Modificacion de usuario a conveniencia.
-- [ ] Creacion de listas de reproduccion.
+- [x] Creacion de listas de reproduccion.
 - [x] Seguir listas de reproducccion de otros usuarios.
 - [x] Lista de reproduccion especial llamada favoritos.
 - [x] Capacidad de buscar canciones, grupos, álbumes y lista de reproducción.

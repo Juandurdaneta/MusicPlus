@@ -122,8 +122,17 @@
           <div class="col-xl-6 col-md-6 playlists">
             <div class="row">
               <div class="col-xl-12 col-md-12">
-                <h2 id="playlistsUsuarioH2">Tus playlists</h2>
-
+                <div class="d-flex justify-content-between">
+                  <h2 id="playlistsUsuarioH2">Tus playlists</h2>
+                  <a
+                    id="agregarPlaylist"
+                    style="cursor: pointer"
+                    data-mdb-toggle="modal"
+                    data-mdb-target="#modalCrearPlaylist"
+                    ><i class="fa fa-plus" aria-hidden="true"></i> Crear nueva
+                    playlist</a
+                  >
+                </div>
                 <hr />
 
                 <div class="col-12" id="playlistsUsuario"></div>
@@ -240,6 +249,77 @@
                   <form action="/eliminarCuenta" method="post">
                     <button type="submit" class="btn btn-dark btn-block">
                       Eliminar cuenta
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--FIN MODAL-->
+
+      <!-- MODAL -->
+      <div
+        class="modal fade"
+        id="modalCrearPlaylist"
+        tabindex="-1"
+        aria-labelledby="modalCrearPlaylist"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <button
+                type="button"
+                class="btn btn-floating text-white"
+                data-mdb-dismiss="modal"
+                aria-label="Close"
+              >
+                X
+              </button>
+
+              <div class="row d-flex justify-content-center">
+                <div class="col-xl-12 col-12">
+                  <h2 class="text-center">Crear Playlist</h2>
+
+                  <hr />
+                </div>
+
+                <div class="col-12">
+                  <form
+                    class="form-outline form-white"
+                    action="/playlist"
+                    method="post"
+                    ref="uploadForm"
+                    enctype="multipart/form-data"
+                  >
+                    <div class="form-outline mb-4">
+                      <input
+                        type="text"
+                        name="nombreNuevaPlaylist"
+                        id="nombreNuevaPlaylist"
+                        class="form-control"
+                      />
+                      <label for="nombreNuevaPlaylist" class="form-label"
+                        >Nombre de tu nueva playlist</label
+                      >
+                    </div>
+                    <label class="form-label text-white"
+                      >Imagen de portada para tu playlist</label
+                    >
+
+                    <div class="form-outline mb-4">
+                      <input
+                        type="file"
+                        class="form-control"
+                        id="imagenPortadaPlaylist"
+                        name="imagenPortadaPlaylist"
+                      />
+                    </div>
+
+                    <button type="submit" class="btn btn-block btn-white">
+                      Crear playlist
                     </button>
                   </form>
                 </div>

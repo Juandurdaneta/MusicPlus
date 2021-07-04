@@ -369,6 +369,73 @@ app.get("/playlist/:idPlaylist/obtenerDatos", (req, res) => {
   );
 });
 
+// CREAR PLAYLIST
+
+app.post("/playlist", (req, res) =>{
+  let imagenPortadaPlaylist;
+  let rutaImagenPlaylist;
+
+  const nuevaPlaylist = new Playlist({
+    nombre: req.body.nombreNuevaPlaylist,
+    propietario: req.session.idSess
+  })
+
+  nuevaPlaylist.save( (err, nuevaplaylist) =>{
+    if(!err){
+      // CHEQUEANDO QUE SE HAYA SUBIDO UN ARCHIVO
+      if (!req.files || Object.keys(req.files).length === 0) {
+        console.log("No se subieron archivos");
+      }
+     
+      imagenPortadaPlaylist = req.files.imagenPortadaPlaylist;
+      rutaImagenPlaylist = __dirname+"/public/images/"+nuevaplaylist._id+".png";
+      nuevaplaylist.imagenPortada = nuevaplaylist._id;
+      // SUBIENDO LA IMAGEN DE PORTADA 
+      imagenPortadaPlaylist.mv(rutaImagenPlaylist, function(err) {
+        if(!err){
+          console.log("Imagen Subida exitosamente");
+          nuevaplaylist.save();
+          res.redirect("/perfil/" + req.session.idSess);
+        } else{
+          console.log("No funciono" + err)
+        }
+      })
+      // AGREGANDO LA PLAYLIST AL USUARIO
+      Usuario.findOne({_id: req.session.idSess}, (err, usuarioEncontrado) => {
+        if(!err){
+          usuarioEncontrado.playlists.push(nuevaplaylist);
+          usuarioEncontrado.save();  
+        }
+        })
+
+    }
+  })
+
+
+
+
+  // imagenSubida = req.files.imagenPerfil;
+  // rutaImagenPerfil =
+  //   __dirname + "/public/images/" + req.session.idSess + ".png";
+
+  // Usuario.findOneAndUpdate(
+  //   { _id: req.session.idSess },
+  //   { imagenPerfil: req.session.idSess },
+  //   (err) => {
+  //     if (!err) {
+  //       imagenSubida.mv(rutaImagenPerfil, function (err) {
+  //         if (!err) {
+  //           console.log("Imagen Subida exitosamente!");
+  //           res.redirect("/perfil/" + req.session.idSess);
+  //         } else {
+  //           console.log("No funciono");
+  //         }
+  //       });
+  //     }
+
+})
+
+
 //SEGUIR PLAYLIST
 
 app.get("/playlist/seguir/:idPlaylist", (req, res) => {

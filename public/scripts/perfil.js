@@ -9,7 +9,7 @@ window.onload=()=>{
     var playlistsUsuarioH2 = document.getElementById("playlistsUsuarioH2")
     var imagenPerfil = document.getElementById("imagenPerfilUsuario");
     var playlistsUsuario = document.getElementById("playlistsUsuario");
-    
+    var agregarPlaylist = document.getElementById("agregarPlaylist");
     datos = {
         method : "GET"
     }
@@ -75,6 +75,7 @@ window.onload=()=>{
             if(data.idSesion != data.usuario._id){
                 btnCerrarSesion.classList.add("hide");
                 btnEditarUsuario.classList.add("hide");
+                agregarPlaylist.classList.add("hide");
                 playlistsUsuarioH2.innerHTML = "Playlists de "+data.usuario.username;
             }
 

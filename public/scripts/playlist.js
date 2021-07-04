@@ -33,6 +33,22 @@ window.onload=()=>{
 
             portadaPlaylist.setAttribute("src",enlacePortada);
 
+            // LISTA DE CANCIONES EN LA PLAYLIST
+            data.playlist.canciones.forEach(cancion =>{
+                var nuevoElemento = document.createElement('li');
+                var division = document.createElement('hr');
+                var nuevoAnchor = document.createElement('a');
+
+                nuevoAnchor.setAttribute("href", "/cancion/"+cancion._id);
+                nuevoAnchor.classList.add("text-white");
+                nuevoAnchor.innerHTML = cancion.nombreCancion;
+                nuevoElemento.append(nuevoAnchor);
+                cancionesPlaylist.append(nuevoElemento);
+                cancionesPlaylist.append(division);
+            })
+        
+
+
             data.usuario.playlists.forEach(playlistDeUsuario => {
             // DETERMINANDO SI EL USUARIO ES DUEÑO DE LA PLAYLIST
                 if(data.playlist.propietario == data.idSesion){
@@ -47,20 +63,7 @@ window.onload=()=>{
                     btnSeguir.setAttribute("href","/playlist/seguir/"+data.playlist._id);
                     btnSeguir.classList.remove("hide");
                 }
-    
-                data.playlist.canciones.forEach(cancion =>{
-                    var nuevoElemento = document.createElement('li');
-                    var division = document.createElement('hr');
-                    var nuevoAnchor = document.createElement('a');
-
-                    nuevoAnchor.setAttribute("href", "/cancion/"+cancion._id);
-                    nuevoAnchor.classList.add("text-white");
-                    nuevoAnchor.innerHTML = cancion.nombreCancion;
-                    nuevoElemento.append(nuevoAnchor);
-                    cancionesPlaylist.append(nuevoElemento);
-                    cancionesPlaylist.append(division);
-                })
-            
+               
             });
            
          
