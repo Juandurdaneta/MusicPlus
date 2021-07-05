@@ -236,19 +236,18 @@ app.post("/upload", (req, res) => {
 // ELIMINAR CUENTA DE USUARIO
 
 app.post("/eliminarCuenta", (req, res) => {
-  const path = __dirname + "/public/images/" + req.session.idSess + ".png";
   try {
-    Usuario.findByIdAndRemove(req.session.idSess, (err) => {
+   Playlist.deleteMany({propietario : req.session.idSess}).then(console.log("Las playlists del usuario con ID "+req.session.idSess+" han sido eliminadas"));
+   Usuario.findByIdAndRemove(req.session.idSess, (err) => {
       if (err) {
         console.log(err);
       } else {
-        fs.unlinkSync(path);
+        console.log("Usuario eliminado exitosamente")
         req.session.destroy();
-        res.redirect("/");
       }
     });
 
-    res.redirect("/perfil/" + req.session.idSess);
+    res.redirect("/");
   } catch (err) {
     console.log(err);
   }
@@ -314,7 +313,7 @@ app.get("/cancion/:idCancion/obtenerDatos", (req, res) => {
  
 });
 
-
+// ENDPOINT PARA AGREGAR CANCION A UNA PLAYLIST
 app.get("/cancion/:idCancion/:idPlaylist/agregar", (req, res)=> {
   const cancionRequerida = req.params.idCancion;
   const playlistRequerida = req.params.idPlaylist;
@@ -330,6 +329,8 @@ app.get("/cancion/:idCancion/:idPlaylist/agregar", (req, res)=> {
   })
 
 })
+
+// ENDPOINT PARA QUITAR UNA CANCION DE UNA PLAYLIST
 
 app.get("/cancion/:idCancion/:idPlaylist/quitar", (req, res) =>{
   const cancionRequerida = req.params.idCancion;
@@ -411,28 +412,6 @@ app.post("/playlist", (req, res) =>{
     }
   })
 
-
-
-
-  // imagenSubida = req.files.imagenPerfil;
-  // rutaImagenPerfil =
-  //   __dirname + "/public/images/" + req.session.idSess + ".png";
-
-  // Usuario.findOneAndUpdate(
-  //   { _id: req.session.idSess },
-  //   { imagenPerfil: req.session.idSess },
-  //   (err) => {
-  //     if (!err) {
-  //       imagenSubida.mv(rutaImagenPerfil, function (err) {
-  //         if (!err) {
-  //           console.log("Imagen Subida exitosamente!");
-  //           res.redirect("/perfil/" + req.session.idSess);
-  //         } else {
-  //           console.log("No funciono");
-  //         }
-  //       });
-  //     }
-
 })
 
 
@@ -505,6 +484,28 @@ app.post("/buscar", (req, res) =>{
   })
 });
 
+
+// ARTISTA
+app.get("/artista/:idArtista", (req, res) =>{
+  res.sendFile(__dirname+"/views/artista.html");
+})
+
+app.get("/artista/:idArtista/obtenerDatos", (req,res) =>{
+const artistaRequerido = req.params.idArtista;
+
+Artista.findOne({_id: artistaRequerido}, (err, artistaEncontrado) =>{
+  if(!err){
+    res.send({
+      status: 200,
+      artista: artistaEncontrado,
+      idSession: req.session.idSess
+    })
+  }
+})
+});
+
+
+
 // DATOS DE LA SESION
 app.get("/sesion", (req, res) =>{
   res.send({
@@ -520,6 +521,12 @@ app.get("/cerrar-sesion", (req, res) => {
   req.session.destroy();
   res.redirect("/");
 });
+
+// EN CASO DE QUE SE ACCEDA A UN ENDPOINT INEXISTENTE
+app.get('*', function(req, res){
+  res.status(404).send("Error")
+});
+
 
 // ESCUCHANDO EN EL PUERTO
 
