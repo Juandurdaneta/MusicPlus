@@ -9,6 +9,7 @@ window.onload=()=>{
     var btnEditarPlaylist = document.getElementById("btnEditar");
     var btnDejarDeSeguir = document.getElementById("btnDejarDeSeguir");
     var btnSeguir = document.getElementById("btnSeguir");
+    var editarNombrePlaylist = document.getElementById("editarNombrePlaylist");
     datos = {
         method : "GET"
     }
@@ -66,7 +67,9 @@ window.onload=()=>{
                
             });
            
-         
+         // EDICION DE LA PLAYLIST
+
+         editarNombrePlaylist.value = data.playlist.nombre;
 
         }
          

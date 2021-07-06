@@ -114,6 +114,11 @@ nav {
   }
 }
 
+#intro {
+  background-image: url("/images/landing.jpg");
+        height: 100vh;
+}
+
 /**  NUEVOS LANZAMIENTOS **/
 
 .album {
@@ -282,9 +287,38 @@ nav {
   padding: 0.2% 5%;
 }
 
-.resultadosBusqueda{
-}
-
 .resultadosBusqueda .col-6{
   margin: 5% auto 10%;
 }
+
+
+/** REPRODUCTOR */ 
+
+#timeline {
+  width: 90%;
+  height: 2px;
+  margin-top: 20px;
+  margin-left: 10px;
+  float: left;
+  -webkit-border-radius: 15px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.76);
+ }
+
+ #pButton {
+  margin-top: 12px;
+  cursor: pointer; }
+
+  
+#pButton {
+  float: left; }
+
+
+#playhead {
+  width: 8px;
+  height: 8px;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  margin-top: -3px;
+  background: rgb(255, 255, 255);
+  cursor: pointer; }

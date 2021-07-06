@@ -114,7 +114,22 @@
                 <button class="btn btn-light btn-block">
                   Agregar a playlist
                 </button>
-                <button class="btn btn-block btn-success">Reproducir</button>
+                <br>
+                <!-- <audio controls>
+                  <source src="" type="audio/mpeg">
+                </audio> -->
+              
+                <audio id="music" preload="true">
+                  <source src="/sounds/tequila-shots.mp3">
+                </audio>
+                <div id="audioplayer">
+                  <i id="pButton" class="fas fa-play"></i>
+                  <div id="timeline">
+                    <div id="playhead"></div>
+                  </div>
+                </div>
+    
+              
               </div>
             </div>
           </div>
@@ -127,12 +142,10 @@
         </div>
       </div>
     </section>
-
     <script
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"
     ></script>
-
     <script src="/scripts/cancion.js"></script>
   </body>
 </html>

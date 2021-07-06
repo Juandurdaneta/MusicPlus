@@ -102,7 +102,10 @@
                 <h3 id="tituloPlaylist"></h3>
                 <hr />
 
-                <button class="btn btn-block btn-dark hide" id="btnEditar">
+                <button class="btn btn-block btn-dark hide"
+                
+                data-mdb-toggle="modal"
+                data-mdb-target="#modalEditarPlaylist" id="btnEditar">
                   Editar playlist
                 </button>
                 <a class="btn btn-block btn-light hide" id="btnSeguir"
@@ -125,6 +128,87 @@
         </div>
       </div>
     </section>
+
+
+        <!-- MODAL -->
+        <div
+        class="modal fade"
+        id="modalEditarPlaylist"
+        tabindex="-1"
+        aria-labelledby="modalEditarPlaylist"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <button
+                type="button"
+                class="btn btn-floating text-white"
+                data-mdb-dismiss="modal"
+                aria-label="Close"
+              >
+                X
+              </button>
+
+              <div class="row d-flex justify-content-center">
+                <div class="col-xl-12 col-12">
+                  <h2 class="text-center">Editar Playlist</h2>
+
+                  <hr />
+                </div>
+
+                <div class="col-12">
+                  <form
+                    class="form-outline form-white"
+                    action="/playlist/editar"
+                    method="post"
+                    ref="uploadForm"
+                    enctype="multipart/form-data"
+                  >
+                    <div class="form-outline mb-4">
+                      <input
+                        type="text"
+                        name="editarNombrePlaylist"
+                        id="editarNombrePlaylist"
+                        class="form-control"
+                      />
+                      <label for="editarNombrePlaylist" class="form-label"
+                        >Nombre actual de tu playlist</label
+                      >
+                    </div>
+                    <button type="submit" class="btn btn-light btn-block">Cambiar nombre</button>
+                    <hr>
+                    </form>
+                    <form action="">
+                    <label class="form-label text-white"
+                      >Cambiar imagen de portada</label
+                    >
+
+                    <div class="form-outline mb-4">
+                      <input
+                        type="file"
+                        class="form-control"
+                        id="imagenPortadaPlaylist"
+                        name="imagenPortadaPlaylist"
+                      />
+                    </div>
+                    <button type="submit" class="btn btn-light btn-block">Cambiar portada</button>
+                  </form>
+                  <hr>
+
+                    <a class="btn btn-block btn-dark">
+                      <i class="fa fa-trash" aria-hidden="true"></i> Eliminar playlist
+
+                    </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--FIN MODAL-->
+    </section>
+
 
     <script
       type="text/javascript"
