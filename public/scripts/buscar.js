@@ -110,7 +110,7 @@ const busqueda = (e) => {
           //ARTISTAS ENCONTRADOS
           if (data.artistas.length > 0) {
             artistas.classList.remove("hide");
-            resultadosAlbumes.innerHTML = "Artistas";
+            resultadosArtistas.innerHTML = "Artistas";
 
             data.artistas.forEach((artista) => {
               var nuevoElemento = document.createElement("li");

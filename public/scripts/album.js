@@ -6,7 +6,7 @@ window.onload=()=>{
     var listaCanciones = document.getElementById("listaCanciones");
     var cancionesAlbum = document.getElementById("cancionesAlbum");
     var enlacePerfil = document.getElementById("enlacePerfil")
-
+    var autor = document.getElementById("nombreAutor");
     datos = {
         method: "GET"
     }
@@ -41,7 +41,13 @@ window.onload=()=>{
                 nuevoElemento.append(nuevoAnchor);
                 cancionesAlbum.append(nuevoElemento);
                 cancionesAlbum.append(division);
+
            });
+
+           // NOMBRE DEL AUTOR DEL ALBUM
+           autor.innerHTML = data.autor.nombreArtista;
+           autor.setAttribute("href","/artista/"+data.autor._id);
+
         }
     })
 

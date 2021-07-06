@@ -38,6 +38,7 @@ const Playlist = schema.getPlaylist();
 const Artista = schema.getArtista();
 const Album = schema.getAlbum();
 
+
 // ROUTING
 
 app.get("/", (req, res) => {
@@ -256,19 +257,20 @@ app.post("/eliminarCuenta", (req, res) => {
 // ALBUM
 
 app.get("/album/:idAlbum", (req, res) => {
-  const albumSolicitado = req.params.idAlbum;
-
   res.sendFile(__dirname + "/views/album.html");
 });
 
 app.get("/album/:idAlbum/obtenerDatos", (req, res) => {
   Album.findOne({ _id: req.params.idAlbum }, (err, albumEncontrado) => {
     if (!err) {
-      res.send({
-        status: 200,
-        album: albumEncontrado,
-        idSesion: req.session.idSess,
-      });
+      Artista.findOne({_id: albumEncontrado.autor}, (err, artistaEncontrado) =>{
+        res.send({
+          status: 200,
+          album: albumEncontrado,
+          idSesion: req.session.idSess,
+          autor: artistaEncontrado
+        });
+      })
     }
   });
 });
