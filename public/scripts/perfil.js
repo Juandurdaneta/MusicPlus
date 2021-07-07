@@ -41,7 +41,7 @@ window.onload=()=>{
 
             // PLAYLISTS DEL USUARIO
             data.usuario.playlists.forEach(playlist => {
-
+                console.log(playlist);
                 if(playlist.imagenPortada == null){
                     enlacePlaylist = "/images/defaultPlaylist.png";
                 } else{

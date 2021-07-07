@@ -10,7 +10,7 @@ let cancionSchema = new mongoose.Schema({
     type: Date, 
     default: Date.now
   },
-  letras: String  
+  ubicacionArchivo: String
 });
 //SCHEMA ALBUM
 

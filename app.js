@@ -432,6 +432,35 @@ app.post("/playlist", (req, res) =>{
 
 })
 
+// CAMBIAR PORTADA DE LA PLAYLIST
+app.post("/subirImagen/:idPlaylist", (req, res) =>{
+let imagenSubida;
+let rutaImagenPortada;
+let playlistAModificar = req.params.idPlaylist;
+
+if(!req.files || Object.keys(req.files).length === 0){
+  console.log("No se subieron archivos")
+}
+
+imagenSubida = req.files.imagenPortadaPlaylist;
+rutaImagenPortada = __dirname+"/public/images/"+playlistAModificar+".png";
+
+Playlist.findOneAndUpdate({_id: playlistAModificar}, {imagenPortada: playlistAModificar}, (err) =>{
+  if(!err){
+    imagenSubida.mv(rutaImagenPortada, function(err){
+      if(!err){
+        console.log("Imagen subida exitosamente!");
+        res.redirect("/playlist/"+playlistAModificar);
+      } else {
+        console.log("No funciono");
+      }
+    })
+  }
+})
+
+})
+
+
 
 //SEGUIR PLAYLIST
 

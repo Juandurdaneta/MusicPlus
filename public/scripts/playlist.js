@@ -10,6 +10,9 @@ window.onload=()=>{
     var btnDejarDeSeguir = document.getElementById("btnDejarDeSeguir");
     var btnSeguir = document.getElementById("btnSeguir");
     var editarNombrePlaylist = document.getElementById("editarNombrePlaylist");
+    var cambiarNombre = document.getElementById("cambiarNombre");
+    var cambiarPortada = document.getElementById("cambiarPortada");
+   
     datos = {
         method : "GET"
     }
@@ -79,8 +82,29 @@ window.onload=()=>{
             });
            
          // EDICION DE LA PLAYLIST
-
          editarNombrePlaylist.value = data.playlist.nombre;
+
+         if(data.playlist.nombre == "Canciones Favoritas de "+data.usuario.username){
+            cambiarNombre.classList.add("hide");
+         }
+
+         // CAMBIAR PORTADA DE LA PLAYLIST
+
+         const cambiarPortadaPlaylist =(e)=>{
+             e.preventDefault();
+             if(cambiarPortada.checkValidity()){
+                 var formularioPortada = new FormData(cambiarPortada);
+                 let myheaders = new Headers();
+                 let datos ={
+                     method: "POST",
+                     headers: myheaders,
+                     body: formularioPortada
+                 }
+                 fetch("/subirImagen/"+data.playlist._id, datos).then(location.reload());
+             }
+         }
+
+         cambiarPortada.addEventListener("submit", cambiarPortadaPlaylist);
 
         }
          
