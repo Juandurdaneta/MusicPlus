@@ -8,7 +8,7 @@ Desarrollado por Juan Urdaneta C.I 27.683.174
 - [x] Crear un Usuario.
 - [x] Iniciar Sesion con el Usuario Creado anteriormente.
 - [ ] Jerarquia de usuario (Administrador y Usuario Común).
-- [ ] Reproducción de canciones.
+- [x] Reproducción de canciones.
 - [ ] Vista de estadisticas para administrador.
 - [x] Modificacion de usuario a conveniencia.
 - [x] Creacion de listas de reproduccion.

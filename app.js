@@ -7,6 +7,8 @@ const _ = require("lodash");
 const schema = require(__dirname + "/model/Schemas.js");
 const session = require("express-session");
 const fileUpload = require("express-fileupload");
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 app.use(
   session({
@@ -64,7 +66,7 @@ app.post("/login", (req, res) => {
             Status: 100,
             mensaje: "No existe usuario para ese correo electronico.",
           });
-        } else if (contraseñaIngresada == usuarioEncontrado.password) {
+        } else if (bcrypt.compare(contraseñaIngresada, usuarioEncontrado.password)) {
           // SI LAS CONTRASEÑAS COINCIDEN ENTONCES SE INICIA LA SESION Y SE DESPACHA AL USUARIO A LA VISTA PRINCIPAL DE LA PAGINA
           req.session.email = req.body.correoElectronico;
           req.session.idSess = usuarioEncontrado._id; //SE LE AGREGA EL ID A LA SESION
@@ -91,26 +93,28 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-  const usuario = req.body.username;
+  const nombreUsuario = req.body.username;
   const email = req.body.mail;
   // HASHING
-  const pass = req.body.pass;
+  const pass = bcrypt.hashSync(req.body.pass, saltRounds);
+
 
   const nuevoUsuario = new Usuario({
-    username: usuario,
+    username: nombreUsuario,
     email: email,
     password: pass,
   });
 
-  nuevoUsuario.save((err, usuario) => {
+  nuevoUsuario.save((err, nuevoUsuario) => {
+
     const playlistPorDefecto = new Playlist({
-      nombre: "Canciones Favoritas de " + usuario.username,
-      propietario: usuario._id,
+      nombre: "Canciones Favoritas de " + nombreUsuario,
+      propietario: nuevoUsuario._id,
     });
 
     playlistPorDefecto.save();
-    usuario.playlists.push(playlistPorDefecto);
-    usuario.save();
+    nuevoUsuario.playlists.push(playlistPorDefecto);
+    nuevoUsuario.save();
   });
   res.send({ Status: 200, mensaje: "Usuario creado Exitosamente!." });
 });
