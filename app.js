@@ -106,17 +106,23 @@ app.post("/register", (req, res) => {
   });
 
   nuevoUsuario.save((err, nuevoUsuario) => {
+    if(!err){
+      const playlistPorDefecto = new Playlist({
+        nombre: "Canciones Favoritas de " + nombreUsuario,
+        propietario: nuevoUsuario._id,
+      });
+  
+      playlistPorDefecto.save();
+      nuevoUsuario.playlists.push(playlistPorDefecto);
+      nuevoUsuario.save();
 
-    const playlistPorDefecto = new Playlist({
-      nombre: "Canciones Favoritas de " + nombreUsuario,
-      propietario: nuevoUsuario._id,
-    });
+      res.send({ Status: 200, mensaje: "Usuario creado Exitosamente!." });
 
-    playlistPorDefecto.save();
-    nuevoUsuario.playlists.push(playlistPorDefecto);
-    nuevoUsuario.save();
+    } else{
+      res.send({ Status: 100, mensaje: "Hubo un error al crear tu usuario, intentalo de nuevo." });
+
+    }
   });
-  res.send({ Status: 200, mensaje: "Usuario creado Exitosamente!." });
 });
 
 // VISTA MAIN

@@ -17,7 +17,9 @@ const registro=(e) =>{
         .then(response => response.json())
         .then(data=>{
             if(data.Status == 200){
-                mensajeExito.innerHTML = data.mensaje;
+                mensajeExito.innerHTML = "<span class='text-success text-center'>"+data.mensaje+"</span>";
+            } else{
+                mensajeExito.innerHTML = "<span class='text-danger text-center'>"+data.mensaje+"</span>";
             }
         }).catch(err=> console.log('Error: ',err));
     }else{
