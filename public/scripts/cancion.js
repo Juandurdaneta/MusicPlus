@@ -7,6 +7,7 @@ window.onload = () => {
   var quitarFavoritos = document.getElementById("favoritosQuitar");
   var fechaLanzamiento = document.getElementById("fechaLanzamiento");
   var enlacePerfil = document.getElementById("enlacePerfil");
+  var playlistsUsuario = document.getElementById("playlistsUsuario");
 
   datos = {
     method: "GET",
@@ -25,7 +26,6 @@ window.onload = () => {
         //nombreArtista = data.artista.nombreArtista;
 
         // CHEQUEANDO SI EL USUARIO TIENE O NO LA CANCION EN FAVORITOS
-
         if (
           data.cancionesFavoritas.canciones.filter(function (e) {
             return e.nombreCancion === data.cancion.nombreCancion;
@@ -51,6 +51,43 @@ window.onload = () => {
               "/agregar"
           );
         }
+
+        // MOSTRANDO LAS PLAYLISTS DEL USUARIO QUE NO CONTIENEN LA CANCION
+        data.playlists.forEach((playlist) => {
+          if (
+            playlist.canciones.filter(function (e) {
+              return e.nombreCancion === data.cancion.nombreCancion;
+            }).length == 0
+          ) {
+            var nuevoElemento = document.createElement("li");
+            var division = document.createElement("hr");
+            var nuevoAnchor = document.createElement("a");
+            var nuevaImagen = document.createElement("img");
+            nuevaImagen.classList.add("img-fluid");
+            nuevaImagen.classList.add("portada");
+
+            if (playlist.imagenPortada == null) {
+              nuevaImagen.setAttribute("src", "/images/defaultPlaylist.png");
+            } else {
+              nuevaImagen.setAttribute(
+                "src",
+                "/images/" + playlist.imagenPortada + ".png"
+              );
+            }
+
+            nuevoAnchor.setAttribute(
+              "href",
+              "/cancion/" + data.cancion._id + "/" + playlist._id + "/agregar"
+            );
+            nuevoAnchor.classList.add("text-white");
+            nuevoAnchor.append(nuevaImagen, playlist.nombre);
+
+            nuevoElemento.append(nuevoAnchor);
+
+            playlistsUsuario.append(nuevoElemento);
+            playlistsUsuario.append(division);
+          }
+        });
 
         // FECHA LANZAMIENTO DE LA CANCION
         const opciones = {

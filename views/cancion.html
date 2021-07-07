@@ -111,7 +111,9 @@
                 </a>
                 <br />
                 <br />
-                <button class="btn btn-light btn-block">
+                <button class="btn btn-light btn-block"
+                data-mdb-toggle="modal"
+                data-mdb-target="#modalAgregarCancion">
                   Agregar a playlist
                 </button>
                 <br>
@@ -120,7 +122,7 @@
                 </audio> -->
               
                 <audio id="music" preload="true">
-                  <source src="/sounds/tequila-shots.mp3">
+                  <!-- <source src="/sounds/tequila-shots.mp3"> -->
                 </audio>
                 <div id="audioplayer">
                   <i id="pButton" class="fas fa-play"></i>
@@ -141,6 +143,52 @@
           </div>
         </div>
       </div>
+
+
+
+      <!-- MODAL -->
+      <div
+        class="modal fade"
+        id="modalAgregarCancion"
+        tabindex="-1"
+        aria-labelledby="modalAgregarCancion"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <button
+                type="button"
+                class="btn btn-floating text-white"
+                data-mdb-dismiss="modal"
+                aria-label="Close"
+              >
+                X
+              </button>
+
+              <div class="row d-flex justify-content-center">
+                <div class="col-xl-12 col-12">
+                  <h2 class="text-center">Selecciona una de tus playlists para agregar la cancion</h2>
+                  <hr>
+                  <br>
+                </div>
+
+                <div class="col-12 playlistsUsuario">
+                  <ol id="playlistsUsuario">
+
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--FIN MODAL-->
+
+
+
+
+
     </section>
     <script
       type="text/javascript"

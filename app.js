@@ -299,14 +299,20 @@ app.get("/cancion/:idCancion/obtenerDatos", (req, res) => {
             propietario: UsuarioEncontrado._id,
           },
           (err, cancionesFavoritas) => {
-            if (!err) {
-              res.send({
-                status: 200,
-                cancion: cancionEncontrada,
-                sesionUsuario: UsuarioEncontrado,
-                cancionesFavoritas : cancionesFavoritas
-              });
-            }
+             Playlist.find({propietario: req.session.idSess}, (err, playlistUsuario) =>{
+
+              if (!err) {
+                res.send({
+                  status: 200,
+                  cancion: cancionEncontrada,
+                  sesionUsuario: UsuarioEncontrado,
+                  cancionesFavoritas : cancionesFavoritas,
+                  playlists: playlistUsuario
+                });
+              }
+
+
+             })
           }
         );
       });
