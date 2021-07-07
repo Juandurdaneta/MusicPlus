@@ -40,16 +40,27 @@ window.onload=()=>{
                 var division = document.createElement('hr');
                 var nuevoAnchor = document.createElement('a');
 
+
                 nuevoAnchor.setAttribute("href", "/cancion/"+cancion._id);
                 nuevoAnchor.classList.add("text-white");
                 nuevoAnchor.innerHTML = cancion.nombreCancion;
                 nuevoElemento.append(nuevoAnchor);
                 cancionesPlaylist.append(nuevoElemento);
                 cancionesPlaylist.append(division);
+
+                // BOTON PARA QUITAR LA CANCION DE LA PLAYLIST
+                if(data.playlist.propietario == data.idSesion){
+                    var eliminarCancion = document.createElement('a');
+                     eliminarCancion.innerHTML = " <i class='fas fa-trash-alt text-white justify-content-between'></i>"
+                     eliminarCancion.setAttribute("href", "/cancion/"+cancion._id+"/"+data.playlist._id+"/quitar")
+                     nuevoElemento.append(eliminarCancion);
+
+                    }
+
             })
         
 
-
+            // SEGUIR - DEJAR DE SEGUIR PLAYLIST
             data.usuario.playlists.forEach(playlistDeUsuario => {
             // DETERMINANDO SI EL USUARIO ES DUEÑO DE LA PLAYLIST
                 if(data.playlist.propietario == data.idSesion){
