@@ -264,7 +264,7 @@ nav {
 @media (max-width: 769px) {
   .circle{
     position: relative;
-    margin-left: 8%;
+    margin-left: 4%;
   }
   .playlists{
     margin-top: 18%;
