@@ -7,7 +7,7 @@ const _ = require("lodash");
 const schema = require(__dirname + "/model/Schemas.js");
 const session = require("express-session");
 const fileUpload = require("express-fileupload");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 app.use(
@@ -40,7 +40,6 @@ const Playlist = schema.getPlaylist();
 const Artista = schema.getArtista();
 const Album = schema.getAlbum();
 
-
 // ROUTING
 
 app.get("/", (req, res) => {
@@ -66,7 +65,9 @@ app.post("/login", (req, res) => {
             Status: 100,
             mensaje: "No existe usuario para ese correo electronico.",
           });
-        } else if (bcrypt.compare(contraseñaIngresada, usuarioEncontrado.password)) {
+        } else if (
+          bcrypt.compare(contraseñaIngresada, usuarioEncontrado.password)
+        ) {
           // SI LAS CONTRASEÑAS COINCIDEN ENTONCES SE INICIA LA SESION Y SE DESPACHA AL USUARIO A LA VISTA PRINCIPAL DE LA PAGINA
           req.session.email = req.body.correoElectronico;
           req.session.idSess = usuarioEncontrado._id; //SE LE AGREGA EL ID A LA SESION
@@ -98,7 +99,6 @@ app.post("/register", (req, res) => {
   // HASHING
   const pass = bcrypt.hashSync(req.body.pass, saltRounds);
 
-
   const nuevoUsuario = new Usuario({
     username: nombreUsuario,
     email: email,
@@ -106,21 +106,22 @@ app.post("/register", (req, res) => {
   });
 
   nuevoUsuario.save((err, nuevoUsuario) => {
-    if(!err){
+    if (!err) {
       const playlistPorDefecto = new Playlist({
         nombre: "Canciones Favoritas de " + nombreUsuario,
         propietario: nuevoUsuario._id,
       });
-  
+
       playlistPorDefecto.save();
       nuevoUsuario.playlists.push(playlistPorDefecto);
       nuevoUsuario.save();
 
       res.send({ Status: 200, mensaje: "Usuario creado Exitosamente!." });
-
-    } else{
-      res.send({ Status: 100, mensaje: "Hubo un error al crear tu usuario, intentalo de nuevo." });
-
+    } else {
+      res.send({
+        Status: 100,
+        mensaje: "Hubo un error al crear tu usuario, intentalo de nuevo.",
+      });
     }
   });
 });
@@ -248,12 +249,18 @@ app.post("/upload", (req, res) => {
 
 app.post("/eliminarCuenta", (req, res) => {
   try {
-   Playlist.deleteMany({propietario : req.session.idSess}).then(console.log("Las playlists del usuario con ID "+req.session.idSess+" han sido eliminadas"));
-   Usuario.findByIdAndRemove(req.session.idSess, (err) => {
+    Playlist.deleteMany({ propietario: req.session.idSess }).then(
+      console.log(
+        "Las playlists del usuario con ID " +
+          req.session.idSess +
+          " han sido eliminadas"
+      )
+    );
+    Usuario.findByIdAndRemove(req.session.idSess, (err) => {
       if (err) {
         console.log(err);
       } else {
-        console.log("Usuario eliminado exitosamente")
+        console.log("Usuario eliminado exitosamente");
         req.session.destroy();
       }
     });
@@ -273,94 +280,96 @@ app.get("/album/:idAlbum", (req, res) => {
 app.get("/album/:idAlbum/obtenerDatos", (req, res) => {
   Album.findOne({ _id: req.params.idAlbum }, (err, albumEncontrado) => {
     if (!err) {
-      Artista.findOne({_id: albumEncontrado.autor}, (err, artistaEncontrado) =>{
-        res.send({
-          status: 200,
-          album: albumEncontrado,
-          idSesion: req.session.idSess,
-          autor: artistaEncontrado
-        });
-      })
+      Artista.findOne(
+        { _id: albumEncontrado.autor },
+        (err, artistaEncontrado) => {
+          res.send({
+            status: 200,
+            album: albumEncontrado,
+            idSesion: req.session.idSess,
+            autor: artistaEncontrado,
+          });
+        }
+      );
     }
   });
 });
 
 // CANCION
 app.get("/cancion/:idCancion", (req, res) => {
-  if(req.session.idSess != null){
+  if (req.session.idSess != null) {
     res.sendFile(__dirname + "/views/cancion.html");
-  } else{
-    res.redirect("/login")
+  } else {
+    res.redirect("/login");
   }
 });
 
 app.get("/cancion/:idCancion/obtenerDatos", (req, res) => {
-
-  if(req.session.idSess == null){
+  if (req.session.idSess == null) {
     res.redirect("/login");
-  } else{
+  } else {
     Cancion.findOne({ _id: req.params.idCancion }, (err, cancionEncontrada) => {
       Usuario.findOne({ _id: req.session.idSess }, (err, UsuarioEncontrado) => {
-        
-        
         Playlist.findOne(
           {
             nombre: /Canciones Favoritas de /i,
             propietario: UsuarioEncontrado._id,
           },
           (err, cancionesFavoritas) => {
-             Playlist.find({propietario: req.session.idSess}, (err, playlistUsuario) =>{
-
-              if (!err) {
-                res.send({
-                  status: 200,
-                  cancion: cancionEncontrada,
-                  sesionUsuario: UsuarioEncontrado,
-                  cancionesFavoritas : cancionesFavoritas,
-                  playlists: playlistUsuario
-                });
+            Playlist.find(
+              { propietario: req.session.idSess },
+              (err, playlistUsuario) => {
+                if (!err) {
+                  res.send({
+                    status: 200,
+                    cancion: cancionEncontrada,
+                    sesionUsuario: UsuarioEncontrado,
+                    cancionesFavoritas: cancionesFavoritas,
+                    playlists: playlistUsuario,
+                  });
+                }
               }
-
-
-             })
+            );
           }
         );
       });
     });
   }
- 
 });
 
 // ENDPOINT PARA AGREGAR CANCION A UNA PLAYLIST
-app.get("/cancion/:idCancion/:idPlaylist/agregar", (req, res)=> {
+app.get("/cancion/:idCancion/:idPlaylist/agregar", (req, res) => {
   const cancionRequerida = req.params.idCancion;
   const playlistRequerida = req.params.idPlaylist;
 
-  Playlist.findOne({_id: playlistRequerida}, (err, playlistEncontrada) =>{
-    Cancion.findOne({_id: cancionRequerida}, (err, cancionEncontrada) =>{
-      if(!err){
-       playlistEncontrada.canciones.push(cancionEncontrada);
-       playlistEncontrada.save().then(res.redirect("/cancion/"+cancionRequerida));
-       
+  Playlist.findOne({ _id: playlistRequerida }, (err, playlistEncontrada) => {
+    Cancion.findOne({ _id: cancionRequerida }, (err, cancionEncontrada) => {
+      if (!err) {
+        playlistEncontrada.canciones.push(cancionEncontrada);
+        playlistEncontrada
+          .save()
+          .then(res.redirect("/cancion/" + cancionRequerida));
       }
-    })
-  })
-
-})
+    });
+  });
+});
 
 // ENDPOINT PARA QUITAR UNA CANCION DE UNA PLAYLIST
 
-app.get("/cancion/:idCancion/:idPlaylist/quitar", (req, res) =>{
+app.get("/cancion/:idCancion/:idPlaylist/quitar", (req, res) => {
   const cancionRequerida = req.params.idCancion;
   const playlistRequerida = req.params.idPlaylist;
 
-  Playlist.findOneAndUpdate({_id: playlistRequerida}, {$pull: {canciones: {_id: cancionRequerida} }}, (err, playlist)=>{
-    if(!err){
-      res.redirect("/cancion/"+cancionRequerida);
+  Playlist.findOneAndUpdate(
+    { _id: playlistRequerida },
+    { $pull: { canciones: { _id: cancionRequerida } } },
+    (err, playlist) => {
+      if (!err) {
+        res.redirect("/cancion/" + cancionRequerida);
+      }
     }
-  })
-
-})
+  );
+});
 
 // PLAYLIST
 app.get("/playlist/:idPlaylist", (req, res) => {
@@ -375,12 +384,18 @@ app.get("/playlist/:idPlaylist/obtenerDatos", (req, res) => {
         Usuario.findOne(
           { _id: req.session.idSess },
           (err, UsuarioEncontrado) => {
-            res.send({
-              status: 200,
-              playlist: playlistEncontrada,
-              idSesion: req.session.idSess,
-              usuario: UsuarioEncontrado,
-            });
+            Usuario.findOne(
+              { _id: playlistEncontrada.propietario },
+              (err, propietario) => {
+                res.send({
+                  status: 200,
+                  playlist: playlistEncontrada,
+                  idSesion: req.session.idSess,
+                  usuario: UsuarioEncontrado,
+                  propietario: propietario
+                });
+              }
+            );
           }
         );
       }
@@ -390,90 +405,119 @@ app.get("/playlist/:idPlaylist/obtenerDatos", (req, res) => {
 
 // CREAR PLAYLIST
 
-app.post("/playlist", (req, res) =>{
+app.post("/playlist", (req, res) => {
   let imagenPortadaPlaylist;
   let rutaImagenPlaylist;
 
   const nuevaPlaylist = new Playlist({
     nombre: req.body.nombreNuevaPlaylist,
-    propietario: req.session.idSess
-  })
+    propietario: req.session.idSess,
+  });
 
-  nuevaPlaylist.save( (err, nuevaplaylist) =>{
-    if(!err){
+  nuevaPlaylist.save((err, nuevaplaylist) => {
+    if (!err) {
       // CHEQUEANDO QUE SE HAYA SUBIDO UN ARCHIVO
       if (!req.files || Object.keys(req.files).length === 0) {
         console.log("No se subieron archivos");
       }
-     
+
       imagenPortadaPlaylist = req.files.imagenPortadaPlaylist;
-      rutaImagenPlaylist = __dirname+"/public/images/"+nuevaplaylist._id+".png";
+      rutaImagenPlaylist =
+        __dirname + "/public/images/" + nuevaplaylist._id + ".png";
       nuevaplaylist.imagenPortada = nuevaplaylist._id;
-      // SUBIENDO LA IMAGEN DE PORTADA 
-      imagenPortadaPlaylist.mv(rutaImagenPlaylist, function(err) {
-        if(!err){
+      // SUBIENDO LA IMAGEN DE PORTADA
+      imagenPortadaPlaylist.mv(rutaImagenPlaylist, function (err) {
+        if (!err) {
           console.log("Imagen Subida exitosamente");
           nuevaplaylist.save();
           res.redirect("/perfil/" + req.session.idSess);
-        } else{
-          console.log("No funciono" + err)
+        } else {
+          console.log("No funciono" + err);
         }
-      })
+      });
       // AGREGANDO LA PLAYLIST AL USUARIO
-      Usuario.findOne({_id: req.session.idSess}, (err, usuarioEncontrado) => {
-        if(!err){
+      Usuario.findOne({ _id: req.session.idSess }, (err, usuarioEncontrado) => {
+        if (!err) {
           usuarioEncontrado.playlists.push(nuevaplaylist);
-          usuarioEncontrado.save();  
+          usuarioEncontrado.save();
         }
-        })
+      });
+    }
+  });
+});
 
+// CAMBIAR PORTADA DE LA PLAYLIST
+app.post("/subirImagen/:idPlaylist", (req, res) => {
+  let imagenSubida;
+  let rutaImagenPortada;
+  let playlistAModificar = req.params.idPlaylist;
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    console.log("No se subieron archivos");
+  }
+
+  imagenSubida = req.files.imagenPortadaPlaylist;
+  rutaImagenPortada =
+    __dirname + "/public/images/" + playlistAModificar + ".png";
+  // SUBIENDO LA IMAGEN DE PORTADA
+  Playlist.findOneAndUpdate(
+    { _id: playlistAModificar },
+    { imagenPortada: playlistAModificar },
+    (err, playlistModificada) => {
+      if (!err) {
+        imagenSubida.mv(rutaImagenPortada, function (err) {
+          if (!err) {
+            console.log("Imagen subida exitosamente!");
+
+            // ACTUALIZANDO TODOS LOS DOCUMENTOS EN LOS QUE SE REFERENCIE LA PLAYLIST ACTUALIZADA
+            Usuario.find(
+              { "playlists._id": playlistAModificar },
+              (err, usuarios) => {
+                console.log(usuarios);
+                usuarios.forEach((usuario) => {
+                  usuario.playlists.forEach((playlist) => {
+                    if (playlist._id == playlistAModificar) {
+                      playlist.imagenPortada = playlistAModificar;
+                      usuario
+                        .save()
+                        .then(console.log("Imagen de portada actualizada!"));
+                    }
+                  });
+                });
+              }
+            );
+
+            res.redirect("/playlist/" + playlistAModificar);
+          } else {
+            console.log("No funciono");
+          }
+        });
+      }
+    }
+  );
+});
+// ENDPOINT PARA CAMBIAR EL NOMBRE DE LA PLAYLIST
+app.post("/playlist/:idPlaylist/editar", (req, res)=>{
+  const playlistAEditar = req.params.idPlaylist;
+  const nuevoNombrePlaylist = req.body.editarNombrePlaylist;
+  Playlist.findOneAndUpdate({_id: playlistAEditar}, {nombre : nuevoNombrePlaylist}, (err) =>{ // ACTUALIZANDO EL NOMBRE DE LA PLAYLIST
+    if(!err){
+      Usuario.find({"playlists._id": playlistAEditar}, (err, usuarios)=>{ // CAMBIANDO EL NOMBRE EN TODAS LAS REFERENCIAS
+        usuarios.forEach(usuario => {
+          usuario.playlists.forEach(playlist => {
+            if(playlist._id == playlistAEditar){
+              playlist.nombre = nuevoNombrePlaylist;
+              usuario.save();
+            }
+          });
+        });
+      })
     }
   })
 
-})
-
-// CAMBIAR PORTADA DE LA PLAYLIST
-app.post("/subirImagen/:idPlaylist", (req, res) =>{
-let imagenSubida;
-let rutaImagenPortada;
-let playlistAModificar = req.params.idPlaylist;
-
-if(!req.files || Object.keys(req.files).length === 0){
-  console.log("No se subieron archivos")
-}
-
-imagenSubida = req.files.imagenPortadaPlaylist;
-rutaImagenPortada = __dirname+"/public/images/"+playlistAModificar+".png";
-
-Playlist.findOneAndUpdate({_id: playlistAModificar}, {imagenPortada: playlistAModificar}, (err, playlistModificada) =>{
-  if(!err){
-    imagenSubida.mv(rutaImagenPortada, function(err){
-      if(!err){
-        console.log("Imagen subida exitosamente!");
-
-
-      // ACTUALIZANDO TODOS LOS DOCUMENTOS EN LOS QUE SE REFERENCIE LA PLAYLIST ACTUALIZADA
-       Usuario.find({"playlists._id":playlistAModificar}, (err, usuarios)=>{
-         console.log(usuarios);
-         usuarios.forEach(usuario => {
-           usuario.playlists.forEach(playlist => {
-             if(playlist._id == playlistAModificar){
-               playlist.imagenPortada = playlistAModificar;
-               usuario.save().then(console.log("Imagen de portada actualizada!"));
-             }
-           });
-         });
-       })
-
-        res.redirect("/playlist/"+playlistAModificar);
-      } else {
-        console.log("No funciono");
-      }
-    })
-  }
-})
 
 })
+
 
 
 
@@ -507,75 +551,78 @@ app.get("/playlist/dejar-de-seguir/:idPlaylist", (req, res) => {
   );
 });
 
-// BUSQUEDA 
+// BUSQUEDA
 
-app.get("/buscar", (req, res) =>{
-  res.sendFile(__dirname+"/views/buscar.html");
-})
+app.get("/buscar", (req, res) => {
+  res.sendFile(__dirname + "/views/buscar.html");
+});
 
-app.post("/buscar", (req, res) =>{
+app.post("/buscar", (req, res) => {
   const query = req.body.busqueda;
 
-  Cancion.find({nombreCancion:  { $regex: '.*' + query + '.*', $options: 'i' }}, (err, cancionesEncontradas) =>{
-    Album.find({nombreAlbum:  { $regex: '.*' + query + '.*', $options: 'i' } }, (err, albumesEncontrados) =>{
-      Artista.find({nombreArtista :{ $regex: '.*' + query + '.*', $options: 'i' } }, (err, artistasEncontrados) =>{
-        Playlist.find({nombre: { $regex: '.*' + query + '.*', $options: 'i' }}, (err, playlistsEncontradas) =>{
-
-
-          if(!err){
-            res.send({
-              status: 200,
-              canciones: cancionesEncontradas,
-              albumes: albumesEncontrados,
-              artistas: artistasEncontrados,
-              playlists: playlistsEncontradas,
-              idSesion: req.session.idSess,
-              busqueda : query
-            })
-          } else {
-            res.send({
-              status: 100
-            })
-          }
-     
-
-
-        })
-      })
-    } )
-  })
+  Cancion.find(
+    { nombreCancion: { $regex: ".*" + query + ".*", $options: "i" } },
+    (err, cancionesEncontradas) => {
+      Album.find(
+        { nombreAlbum: { $regex: ".*" + query + ".*", $options: "i" } },
+        (err, albumesEncontrados) => {
+          Artista.find(
+            { nombreArtista: { $regex: ".*" + query + ".*", $options: "i" } },
+            (err, artistasEncontrados) => {
+              Playlist.find(
+                { nombre: { $regex: ".*" + query + ".*", $options: "i" } },
+                (err, playlistsEncontradas) => {
+                  if (!err) {
+                    res.send({
+                      status: 200,
+                      canciones: cancionesEncontradas,
+                      albumes: albumesEncontrados,
+                      artistas: artistasEncontrados,
+                      playlists: playlistsEncontradas,
+                      idSesion: req.session.idSess,
+                      busqueda: query,
+                    });
+                  } else {
+                    res.send({
+                      status: 100,
+                    });
+                  }
+                }
+              );
+            }
+          );
+        }
+      );
+    }
+  );
 });
-
 
 // ARTISTA
-app.get("/artista/:idArtista", (req, res) =>{
-  res.sendFile(__dirname+"/views/artista.html");
-})
-
-app.get("/artista/:idArtista/obtenerDatos", (req,res) =>{
-const artistaRequerido = req.params.idArtista;
-
-Artista.findOne({_id: artistaRequerido}, (err, artistaEncontrado) =>{
-  if(!err){
-    res.send({
-      status: 200,
-      artista: artistaEncontrado,
-      idSession: req.session.idSess
-    })
-  }
-})
+app.get("/artista/:idArtista", (req, res) => {
+  res.sendFile(__dirname + "/views/artista.html");
 });
 
+app.get("/artista/:idArtista/obtenerDatos", (req, res) => {
+  const artistaRequerido = req.params.idArtista;
 
+  Artista.findOne({ _id: artistaRequerido }, (err, artistaEncontrado) => {
+    if (!err) {
+      res.send({
+        status: 200,
+        artista: artistaEncontrado,
+        idSession: req.session.idSess,
+      });
+    }
+  });
+});
 
 // DATOS DE LA SESION
-app.get("/sesion", (req, res) =>{
+app.get("/sesion", (req, res) => {
   res.send({
     status: 200,
-    sesion: req.session.idSess
-  })
-})
-
+    sesion: req.session.idSess,
+  });
+});
 
 // CERRAR SESION
 
@@ -585,10 +632,9 @@ app.get("/cerrar-sesion", (req, res) => {
 });
 
 // EN CASO DE QUE SE ACCEDA A UN ENDPOINT INEXISTENTE
-app.get('*', function(req, res){
-  res.status(404).send("Error")
+app.get("*", function (req, res) {
+  res.status(404).send("Error");
 });
-
 
 // ESCUCHANDO EN EL PUERTO
 
