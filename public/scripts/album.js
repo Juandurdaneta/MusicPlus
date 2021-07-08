@@ -17,6 +17,10 @@ window.onload = () => {
   var reproduccionCanciones = [];
   var titulosCanciones = [];
   var cancionEnReproduccion = document.createElement("p");
+  var adelante = document.getElementById("adelante");
+  var atras = document.getElementById("atras")
+  var i = 0;
+  var j = 0;
 
   datos = {
     method: "GET",
@@ -62,8 +66,6 @@ window.onload = () => {
         autor.setAttribute("href", "/artista/" + data.autor._id);
 
         // REPRODUCTOR DE MUSICA
-        var i = 0;
-        var j = 0;
 
         // BUCLE DE CADA UNA DE LAS CANCIONES DEL ALBUM
         music.addEventListener("ended", function () {
@@ -75,15 +77,18 @@ window.onload = () => {
           music.src = reproduccionCanciones[i];
           music.play();
           enReproduccion.append(cancionEnReproduccion);
+          pButton.className = "";
+          pButton.className = "fas fa-pause";
         });
 
         // TITULO DE LA CANCION EN REPRODUCCION
         cancionEnReproduccion.innerHTML =
-          "Estas escuchando : " + titulosCanciones[0];
+          "Estas escuchando : " + titulosCanciones[j];
 
         enReproduccion.append(cancionEnReproduccion);
 
-        music.src = reproduccionCanciones[0];
+        music.src = reproduccionCanciones[i];
+
 
         // LINEA DEL TIEMPO AJUSTADA CON EL INDICADOR DE TIEMPO
         var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
@@ -190,5 +195,32 @@ window.onload = () => {
           return el.getBoundingClientRect().left;
         }
       }
+
+
+      
+      adelante.addEventListener("click", function(){
+        j++;
+        i++;
+        cancionEnReproduccion.innerHTML =
+        "Estas escuchando : " + titulosCanciones[j];
+        music.src = reproduccionCanciones[i];
+        music.pause();
+        pButton.className = "";
+        pButton.className = "fas fa-play";
+        
+    });
+
+    atras.addEventListener("click", function(){
+        j--;
+        i--;
+        cancionEnReproduccion.innerHTML =
+        "Estas escuchando : " + titulosCanciones[j];
+        music.src = reproduccionCanciones[i];
+
+        pButton.className = "";
+        pButton.className = "fas fa-play";
+        
+    })
+
     });
 };
