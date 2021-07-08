@@ -65,17 +65,21 @@ window.onload = () => {
         var i = 0;
         var j = 0;
 
+        // BUCLE DE CADA UNA DE LAS CANCIONES DEL ALBUM
         music.addEventListener("ended", function () {
           i = ++i < reproduccionCanciones.length ? i : 0;
           j = ++j < titulosCanciones.length ? j : 0;
 
-          cancionEnReproduccion.innerHTML = "Estas escuchando : "+titulosCanciones[j];
+          cancionEnReproduccion.innerHTML =
+            "Estas escuchando : " + titulosCanciones[j];
           music.src = reproduccionCanciones[i];
           music.play();
           enReproduccion.append(cancionEnReproduccion);
         });
 
-        cancionEnReproduccion.innerHTML = "Estas escuchando : "+titulosCanciones[0];
+        // TITULO DE LA CANCION EN REPRODUCCION
+        cancionEnReproduccion.innerHTML =
+          "Estas escuchando : " + titulosCanciones[0];
 
         enReproduccion.append(cancionEnReproduccion);
 
