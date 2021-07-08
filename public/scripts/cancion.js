@@ -119,6 +119,12 @@ window.onload = () => {
 
         music.append(archivoCancion);
 
+
+        //DETERMINANDO CUANDO LA CANCION TERMINA
+        music.addEventListener('ended', function(){
+          console.log("termino");
+        })
+
         // LINEA DEL TIEMPO AJUSTADA CON EL INDICADOR DE TIEMPO
         var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
 
