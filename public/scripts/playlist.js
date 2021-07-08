@@ -13,6 +13,7 @@ window.onload = () => {
   var cambiarNombre = document.getElementById("cambiarNombre");
   var cambiarPortada = document.getElementById("cambiarPortada");
   var propietarioPlaylist = document.getElementById("propietarioPlaylist");
+  var eliminarPlaylist = document.getElementById("eliminarPlaylist");
 
   datos = {
     method: "GET",
@@ -140,13 +141,20 @@ window.onload = () => {
               headers: myheaders,
               body: formularioNombre,
             };
-            fetch("/playlist/" + data.playlist._id+"/editar", datos).then(
+            fetch("/playlist/" + data.playlist._id + "/editar", datos).then(
               location.reload()
             );
           }
         };
 
         cambiarNombre.addEventListener("submit", cambiarNombrePlaylist);
+
+        // ELIMINAR PLAYLIST
+
+        eliminarPlaylist.setAttribute(
+          "href",
+          "/playlist/" + data.playlist._id + "/eliminar"
+        );
       }
     });
 };

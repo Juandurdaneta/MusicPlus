@@ -392,7 +392,7 @@ app.get("/playlist/:idPlaylist/obtenerDatos", (req, res) => {
                   playlist: playlistEncontrada,
                   idSesion: req.session.idSess,
                   usuario: UsuarioEncontrado,
-                  propietario: propietario
+                  propietario: propietario,
                 });
               }
             );
@@ -497,29 +497,60 @@ app.post("/subirImagen/:idPlaylist", (req, res) => {
   );
 });
 // ENDPOINT PARA CAMBIAR EL NOMBRE DE LA PLAYLIST
-app.post("/playlist/:idPlaylist/editar", (req, res)=>{
+app.post("/playlist/:idPlaylist/editar", (req, res) => {
   const playlistAEditar = req.params.idPlaylist;
   const nuevoNombrePlaylist = req.body.editarNombrePlaylist;
-  Playlist.findOneAndUpdate({_id: playlistAEditar}, {nombre : nuevoNombrePlaylist}, (err) =>{ // ACTUALIZANDO EL NOMBRE DE LA PLAYLIST
-    if(!err){
-      Usuario.find({"playlists._id": playlistAEditar}, (err, usuarios)=>{ // CAMBIANDO EL NOMBRE EN TODAS LAS REFERENCIAS
-        usuarios.forEach(usuario => {
-          usuario.playlists.forEach(playlist => {
-            if(playlist._id == playlistAEditar){
-              playlist.nombre = nuevoNombrePlaylist;
-              usuario.save();
-            }
+  Playlist.findOneAndUpdate(
+    { _id: playlistAEditar },
+    { nombre: nuevoNombrePlaylist },
+    (err) => {
+      // ACTUALIZANDO EL NOMBRE DE LA PLAYLIST
+      if (!err) {
+        Usuario.find({ "playlists._id": playlistAEditar }, (err, usuarios) => {
+          // CAMBIANDO EL NOMBRE EN TODAS LAS REFERENCIAS
+          usuarios.forEach((usuario) => {
+            usuario.playlists.forEach((playlist) => {
+              if (playlist._id == playlistAEditar) {
+                playlist.nombre = nuevoNombrePlaylist;
+                usuario.save();
+              }
+            });
           });
         });
-      })
+      }
     }
-  })
+  );
+});
 
+// ELIMINAR PLAYLIST
+app.get("/playlist/:idPlaylist/eliminar", (req, res) => {
+  const playlistAEliminar = req.params.idPlaylist;
 
-})
-
-
-
+  Playlist.findOne({ _id: playlistAEliminar }, (err, playlist) => {
+    // VERIFICANDO QUE SEA EL PROPIETARIO QUIEN ESTE ELIMINANDO LA PLAYLIST
+    if (playlist.propietario == req.session.idSess) {
+      Playlist.deleteOne({ _id: playlistAEliminar }, (err) => {
+        // ELIMINANDO LA PLAYLIST
+        if (!err) {
+          Usuario.updateMany(
+            { "playlists._id": playlistAEliminar },
+            { $pull: { playlists: { _id: playlistAEliminar } } },
+            (err) => {
+              // ELIMINANDO LAS REFERENCIAS DE LA PLAYLIST
+              if (!err) {
+                console.log("Playlist eliminada de la base de datos.");
+              }
+            }
+          );
+        }
+      });
+      res.redirect("/home");
+    } else {
+      console.log("No eres el propietario");
+      res.redirect("/home");
+    }
+  });
+});
 
 //SEGUIR PLAYLIST
 
