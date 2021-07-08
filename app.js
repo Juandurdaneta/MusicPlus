@@ -40,6 +40,7 @@ const Playlist = schema.getPlaylist();
 const Artista = schema.getArtista();
 const Album = schema.getAlbum();
 
+
 // ROUTING
 
 app.get("/", (req, res) => {

@@ -111,6 +111,14 @@ window.onload = () => {
         var playhead = document.getElementById("playhead"); // INDICADOR DE TIEMPO
         var timeline = document.getElementById("timeline"); // LINEA DE TIEMPO DE LA CANCION
 
+        // ASIGNANDO EL ARCHIVO DE LA CANCION A REPRODUCIR
+
+        var archivoCancion = document.createElement("source");
+        archivoCancion.setAttribute("src", data.cancion.ubicacionArchivo);
+        archivoCancion.setAttribute("type", "audio/mpeg");
+
+        music.append(archivoCancion);
+
         // LINEA DEL TIEMPO AJUSTADA CON EL INDICADOR DE TIEMPO
         var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
 
