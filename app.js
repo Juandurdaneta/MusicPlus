@@ -445,11 +445,26 @@ if(!req.files || Object.keys(req.files).length === 0){
 imagenSubida = req.files.imagenPortadaPlaylist;
 rutaImagenPortada = __dirname+"/public/images/"+playlistAModificar+".png";
 
-Playlist.findOneAndUpdate({_id: playlistAModificar}, {imagenPortada: playlistAModificar}, (err) =>{
+Playlist.findOneAndUpdate({_id: playlistAModificar}, {imagenPortada: playlistAModificar}, (err, playlistModificada) =>{
   if(!err){
     imagenSubida.mv(rutaImagenPortada, function(err){
       if(!err){
         console.log("Imagen subida exitosamente!");
+
+
+      // ACTUALIZANDO TODOS LOS DOCUMENTOS EN LOS QUE SE REFERENCIE LA PLAYLIST ACTUALIZADA
+       Usuario.find({"playlists._id":playlistAModificar}, (err, usuarios)=>{
+         console.log(usuarios);
+         usuarios.forEach(usuario => {
+           usuario.playlists.forEach(playlist => {
+             if(playlist._id == playlistAModificar){
+               playlist.imagenPortada = playlistAModificar;
+               usuario.save().then(console.log("Imagen de portada actualizada!"));
+             }
+           });
+         });
+       })
+
         res.redirect("/playlist/"+playlistAModificar);
       } else {
         console.log("No funciono");
