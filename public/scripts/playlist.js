@@ -15,6 +15,21 @@ window.onload = () => {
   var propietarioPlaylist = document.getElementById("propietarioPlaylist");
   var eliminarPlaylist = document.getElementById("eliminarPlaylist");
 
+
+  var music = document.getElementById("music"); // ID PARA EL ELEMENTO DEL AUDIO
+  var duration = music.duration; // DURACION DEL AUDIO
+  var pButton = document.getElementById("pButton"); // BOTON DE PLAY
+  var playhead = document.getElementById("playhead"); // INDICADOR DE TIEMPO
+  var timeline = document.getElementById("timeline"); // LINEA DE TIEMPO DE LA CANCION
+  var enReproduccion = document.getElementById("enReproduccion");
+  var reproduccionCanciones = [];
+  var titulosCanciones = [];
+  var cancionEnReproduccion = document.createElement("p");
+  var adelante = document.getElementById("adelante");
+  var atras = document.getElementById("atras")
+  var i = 0;
+  var j = 0;
+
   datos = {
     method: "GET",
   };
@@ -63,6 +78,10 @@ window.onload = () => {
             );
             nuevoElemento.append(eliminarCancion);
           }
+
+          // OBTENIENDO LOS TITULOS DE LAS CANCIONES Y LA UBICACION DE LOS ARCHIVOS
+          reproduccionCanciones.push(cancion.ubicacionArchivo);
+          titulosCanciones.push(cancion.nombreCancion);
         });
 
         // SEGUIR - DEJAR DE SEGUIR PLAYLIST
@@ -155,6 +174,166 @@ window.onload = () => {
           "href",
           "/playlist/" + data.playlist._id + "/eliminar"
         );
+
+
+          // BUCLE DE CADA UNA DE LAS CANCIONES DEL ALBUM
+          music.addEventListener("ended", function () {
+            i = ++i < reproduccionCanciones.length ? i : 0;
+            j = ++j < titulosCanciones.length ? j : 0;
+  
+            cancionEnReproduccion.innerHTML =
+              "Estas escuchando : " + titulosCanciones[j];
+            music.src = reproduccionCanciones[i];
+            music.play();
+            enReproduccion.append(cancionEnReproduccion);
+            pButton.className = "";
+            pButton.className = "fas fa-pause";
+          });
+  
+          // TITULO DE LA CANCION EN REPRODUCCION
+          if(titulosCanciones.length == 0){
+            cancionEnReproduccion.innerHTML = "";
+          } else {
+            cancionEnReproduccion.innerHTML =
+            "Estas escuchando : " + titulosCanciones[j];
+          }
+          
+          
+          enReproduccion.append(cancionEnReproduccion);
+  
+          music.src = reproduccionCanciones[i];
+
+           // LINEA DEL TIEMPO AJUSTADA CON EL INDICADOR DE TIEMPO
+        var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
+
+        // EVENT LISTENER DEL BOTON DE PLAY
+        pButton.addEventListener("click", play);
+
+        // EVENT LISTENER DE LA ACTUALIZACION DEL TEIMPO
+        music.addEventListener("timeupdate", timeUpdate, false);
+
+        // HACE QUE LA LINEA DEL TIEMPO SEA CLICKABLE
+        timeline.addEventListener(
+          "click",
+          function (event) {
+            moveplayhead(event);
+            music.currentTime = duration * clickPercent(event);
+          },
+          false
+        );
+
+        // DEVUELVE CLICK COMO UN DECIMAL
+        function clickPercent(event) {
+          return (event.clientX - getPosition(timeline)) / timelineWidth;
+        }
+
+        // HACE QUE EL INDICADOR SEA TRASLADABLE CON EL CLICK
+        playhead.addEventListener("mousedown", mouseDown, false);
+        window.addEventListener("mouseup", mouseUp, false);
+
+        var onplayhead = false;
+
+        // EVENTLISTENER PARA EL RETROCESO
+        function mouseDown() {
+          onplayhead = true;
+          window.addEventListener("mousemove", moveplayhead, true);
+          music.removeEventListener("timeupdate", timeUpdate, false);
+        }
+
+        // EVENT LISTENER PARA ADELANTAR
+        function mouseUp(event) {
+          if (onplayhead == true) {
+            moveplayhead(event);
+            window.removeEventListener("mousemove", moveplayhead, true);
+            // CAMBIANDO EL TIEMPO ACTUAL
+            music.currentTime = duration * clickPercent(event);
+            music.addEventListener("timeupdate", timeUpdate, false);
+          }
+          onplayhead = false;
+        }
+        // MUEVE EL INDICADOR A MEDIDA QUE EL USUARIO LO ARRASTRA
+        function moveplayhead(event) {
+          var newMargLeft = event.clientX - getPosition(timeline);
+
+          if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
+            playhead.style.marginLeft = newMargLeft + "px";
+          }
+          if (newMargLeft < 0) {
+            playhead.style.marginLeft = "0px";
+          }
+          if (newMargLeft > timelineWidth) {
+            playhead.style.marginLeft = timelineWidth + "px";
+          }
+        }
+
+        // timeUpdate
+        // SINCRONIZA EL INDICADOR CON EL TIEMPO ACTUAL DEL AUDIO
+        function timeUpdate() {
+          var playPercent = timelineWidth * (music.currentTime / duration);
+          playhead.style.marginLeft = playPercent + "px";
+          if (music.currentTime == duration) {
+            pButton.className = "";
+            pButton.className = "fas fa-play";
+          }
+        }
+
+        // PAUSA Y PLAY
+        function play() {
+          // INICIA LA CANCION
+          if (music.paused) {
+            music.play();
+            // DESCARTA EL BOTON DE PLAY, AGREGA EL DE PAUSA
+            pButton.className = "";
+            pButton.className = "fas fa-pause";
+          } else {
+            // PAUSA LA MUSICA
+            music.pause();
+            // DESCARTA EL BOTON DE PAUSA, AGREGA EL DE PLAY
+            pButton.className = "";
+            pButton.className = "fas fa-play";
+          }
+        }
+
+        // OBTIENE LA DURACION DEL AUDIO
+        music.addEventListener(
+          "canplaythrough",
+          function () {
+            duration = music.duration;
+          },
+          false
+        );
+
+        // DEVUELVE LA POSICION DE LOS ELEMENTOS EN RELACION CON LA PARTE IZQUIERDA DE LA VENTANA
+        function getPosition(el) {
+          return el.getBoundingClientRect().left;
+        }
       }
+
+
+      
+      adelante.addEventListener("click", function(){
+        j++;
+        i++;
+        cancionEnReproduccion.innerHTML =
+        "Estas escuchando : " + titulosCanciones[j];
+        music.src = reproduccionCanciones[i];
+        music.pause();
+        pButton.className = "";
+        pButton.className = "fas fa-play";
+        
+    });
+
+    atras.addEventListener("click", function(){
+        j--;
+        i--;
+        cancionEnReproduccion.innerHTML =
+        "Estas escuchando : " + titulosCanciones[j];
+        music.src = reproduccionCanciones[i];
+
+        pButton.className = "";
+        pButton.className = "fas fa-play";
+        
+    })
+
     });
 };
