@@ -22,38 +22,38 @@ Desarrollado por Juan Urdaneta C.I 27.683.174
 - [Documentacion de endpoints](https://documenter.getpostman.com/view/15432930/Tzeah5TK)
 - [Wireframes](https://drive.google.com/file/d/1pmooZIkrYyyAL4hslqoMrM_QDY1a8PM6/view?usp=sharing)
 
-## Modelado de datos
-Colecciones: Usuarios, Playlists, Artistas, Albumes, Canciones.
+## Modelado de datos NOSQL
+Colecciones: Usuarios, Playlists, Artistas, Álbumes, Canciones.
 
 ### Cada perfil de usuario cuenta con:
 - Un ID
 - Un nombre de Usuario
-- Un correo Electronico
+- Un correo Electrónico
 - Una contraseña
-- Una coleccion de playlists
+- Una colección de playlists
 - Una imagen de perfil
 
 ### Cada documento de Playlist cuenta con:
 - Un ID
 - Un nombre de Playlist
-- Una coleccion de canciones
+- Una colección de canciones
 - Un ID de Propietario
 - Una imagen de portada
 
-### Cada documento de la coleccion de Artistas cuenta con:
+### Cada documento de la colección de Artistas cuenta con:
 - Un ID
 - Nombre del artista
-- Coleccion de albumes creados
+- Colección de álbumes creados
 - Imagen de perfil
 
-### Cada documento de la coleccion de Albumes cuenta con:
+### Cada documento de la colección de Álbumes cuenta con:
 - Un ID
-- El nombre del Album
-- Una coleccion de canciones
-- La Imagen de portada del album
+- El nombre del Álbum
+- Una colección de canciones
+- La Imagen de portada del álbum
 
-### Cada documento de la Coleccion de canciones cuenta con:
+### Cada documento de la colección de canciones cuenta con:
 - Un ID
-- Nombre de la cancion
-- Ubicacion del archivo de la cancion.
-- La fecha de lanzamiento de la cancion.
+- Nombre de la canción
+- Ubicación del archivo de la canción.
+- La fecha de lanzamiento de la canción.
